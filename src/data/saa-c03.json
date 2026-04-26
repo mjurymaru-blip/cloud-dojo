@@ -1,0 +1,30 @@
+{
+  "courseId": "saa-c03",
+  "title": "AWS Certified Solutions Architect - Associate",
+  "questions": [
+    {
+      "id": "saa-001",
+      "question": "ある企業が、予測不可能なトラフィックの急増を伴うウェブアプリケーションをAWSに移行します。最もコスト効率よくトラフィック変動に対応できるアーキテクチャはどれですか？",
+      "options": [
+        "ピーク時のトラフィックに合わせてAmazon EC2リザーブドインスタンスを購入する",
+        "Auto Scalingグループを備えたAmazon EC2を使用し、Application Load Balancerの背後に配置する",
+        "Amazon S3を使用して静的コンテンツをホストし、データベースはオンプレミスに残す",
+        "最大のAmazon EC2専用ホストをプロビジョニングする"
+      ],
+      "answerIndex": 1,
+      "explanation": "Auto ScalingとALBを組み合わせることで、トラフィックの変動に合わせて自動的にEC2インスタンスを増減でき、コスト効率と可用性のバランスを取ることができます。"
+    },
+    {
+      "id": "saa-002",
+      "question": "Amazon S3に保存されている機密データに対して、データの保存時の暗号化（Server-Side Encryption）を自動的に強制するにはどうすればよいですか？",
+      "options": [
+        "S3バケットポリシーを使用して、暗号化ヘッダーのないPutObjectリクエストを拒否する",
+        "Amazon Macieを有効にしてすべてのS3バケットをスキャンする",
+        "AWS WAFを使用して非暗号化トラフィックをブロックする",
+        "Amazon CloudFrontをS3の前に配置してHTTPSを強制する"
+      ],
+      "answerIndex": 0,
+      "explanation": "S3バケットポリシーを使用すると、アップロードリクエスト（s3:PutObject）に特定の暗号化要件（例：x-amz-server-side-encryption ヘッダー）が含まれていない場合、そのリクエストを拒否して暗号化を強制できます。"
+    }
+  ]
+}
