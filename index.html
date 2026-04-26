@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AWS資格学習プラットフォーム">
+  <meta name="theme-color" content="#0B0F19">
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <title>Cloud Dojo - AWS Learning Platform</title>
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/components.css">
+  <link rel="stylesheet" href="/src/css/animations.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+  <div class="app-container">
+    <header class="glass-header">
+      <h1>Cloud Dojo</h1>
+      <div class="user-progress" id="userProgress">
+        <!-- JSで進捗を挿入 -->
+      </div>
+    </header>
+
+    <main class="course-selection" id="courseSelection">
+      <h2 class="section-title">学習コースを選択</h2>
+      
+      <div class="course-cards">
+        <button class="glass-card course-btn" data-course="clf-c02">
+          <div class="course-icon clf-icon">☁️</div>
+          <div class="course-info">
+            <h3>Cloud Practitioner</h3>
+            <p>CLF-C02</p>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%"></div></div>
+          </div>
+        </button>
+
+        <button class="glass-card course-btn" data-course="saa-c03">
+          <div class="course-icon saa-icon">🏗️</div>
+          <div class="course-info">
+            <h3>Solutions Architect Associate</h3>
+            <p>SAA-C03</p>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%"></div></div>
+          </div>
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
