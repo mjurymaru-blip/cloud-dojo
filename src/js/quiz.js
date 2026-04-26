@@ -1,3 +1,4 @@
+import './pwa.js';
 import { fetchQuestions } from './data.js';
 import { saveQuizResult } from './storage.js';
 

@@ -1,3 +1,4 @@
+import './pwa.js';
 import { getProgress } from './storage.js';
 
 document.addEventListener('DOMContentLoaded', () => {
