@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const infoP = btn.querySelector('.course-info p');
       if (infoP) {
-        infoP.innerHTML += ` &bull; <span style="color:var(--success)">正解: ${courseStats.totalCorrect}</span> / ${courseStats.totalAnswered}`;
+        infoP.insertAdjacentHTML('beforeend', ` &bull; <span style="color:var(--success)">正解: ${courseStats.totalCorrect}</span> / ${courseStats.totalAnswered}`);
       }
     }
 

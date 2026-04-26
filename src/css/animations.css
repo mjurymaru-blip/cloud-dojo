@@ -3,14 +3,29 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(255, 153, 0, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(255, 153, 0, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 153, 0, 0); }
+/* GPU-accelerated pulse using pseudo-element */
+@keyframes pulseGlow {
+  0% { transform: scale(1); opacity: 0.6; }
+  70% { transform: scale(1.1); opacity: 0; }
+  100% { transform: scale(1); opacity: 0; }
 }
 
 .fade-in {
   animation: fadeIn 0.4s ease forwards;
+}
+
+.pulse-wrapper {
+  position: relative;
+}
+
+.pulse-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: inherit;
+  border: 2px solid var(--aws-orange);
+  z-index: -1;
+  animation: pulseGlow 2s infinite;
 }
 
 /* Add stagger to children */

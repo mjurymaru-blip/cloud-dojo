@@ -8,7 +8,11 @@ export function getProgress() {
   const data = localStorage.getItem(STORAGE_KEY);
   if (data) {
     try {
-      return JSON.parse(data);
+      const parsed = JSON.parse(data);
+      if (typeof parsed.streakDays === 'number' && parsed.courses && typeof parsed.courses === 'object') {
+        return parsed;
+      }
+      console.warn('Invalid storage schema, resetting.');
     } catch (e) {
       console.error('Failed to parse progress data', e);
     }

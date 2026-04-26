@@ -2,111 +2,134 @@ import './pwa.js';
 import { fetchQuestions } from './data.js';
 import { saveQuizResult } from './storage.js';
 
-let currentCourseId = '';
-let courseData = null;
-let currentQuestionIndex = 0;
-let correctCount = 0;
-let isAnswered = false;
+class QuizState {
+  constructor() {
+    this.courseId = '';
+    this.data = null;
+    this.currentIndex = 0;
+    this.correctCount = 0;
+    this.isAnswered = false;
+  }
+
+  get currentQuestion() {
+    return this.data?.questions[this.currentIndex];
+  }
+
+  get isFinished() {
+    return this.currentIndex >= (this.data?.questions.length || 0);
+  }
+}
+
+const state = new QuizState();
 
 // DOM Elements
-const loadingIndicator = document.getElementById('loadingIndicator');
-const quizContainer = document.getElementById('quizContainer');
-const resultContainer = document.getElementById('resultContainer');
-const courseTitle = document.getElementById('courseTitle');
-const questionCounter = document.getElementById('questionCounter');
-const scoreTracker = document.getElementById('scoreTracker');
-const questionText = document.getElementById('questionText');
-const optionsContainer = document.getElementById('optionsContainer');
-const explanationBox = document.getElementById('explanationBox');
-const explanationText = document.getElementById('explanationText');
-const nextBtn = document.getElementById('nextBtn');
-const homeBtn = document.getElementById('homeBtn');
+const elements = {
+  loadingIndicator: document.getElementById('loadingIndicator'),
+  quizContainer: document.getElementById('quizContainer'),
+  resultContainer: document.getElementById('resultContainer'),
+  courseTitle: document.getElementById('courseTitle'),
+  questionCounter: document.getElementById('questionCounter'),
+  scoreTracker: document.getElementById('scoreTracker'),
+  questionText: document.getElementById('questionText'),
+  optionsContainer: document.getElementById('optionsContainer'),
+  explanationBox: document.getElementById('explanationBox'),
+  explanationText: document.getElementById('explanationText'),
+  nextBtn: document.getElementById('nextBtn'),
+  homeBtn: document.getElementById('homeBtn'),
+  finalScore: document.getElementById('finalScore')
+};
 
 async function initQuiz() {
   const params = new URLSearchParams(window.location.search);
-  currentCourseId = params.get('course');
+  state.courseId = params.get('course');
 
-  if (!currentCourseId) {
+  if (!state.courseId) {
     window.location.href = '/';
     return;
   }
 
-  courseData = await fetchQuestions(currentCourseId);
-  loadingIndicator.style.display = 'none';
+  state.data = await fetchQuestions(state.courseId);
+  elements.loadingIndicator.style.display = 'none';
 
-  if (!courseData || !courseData.questions || courseData.questions.length === 0) {
-    quizContainer.innerHTML = '<p>問題データの読み込みに失敗しました。</p>';
-    quizContainer.classList.add('active');
+  if (!state.data || !state.data.questions || state.data.questions.length === 0) {
+    elements.quizContainer.innerHTML = '<p>問題データの読み込みに失敗しました。</p>';
+    elements.quizContainer.classList.add('active');
     return;
   }
 
-  courseTitle.textContent = courseData.title;
+  elements.courseTitle.textContent = state.data.title;
   showQuestion();
 }
 
 function showQuestion() {
-  isAnswered = false;
-  explanationBox.classList.remove('active');
-  nextBtn.disabled = true;
-  quizContainer.classList.add('active');
+  state.isAnswered = false;
+  elements.explanationBox.classList.remove('active');
+  elements.nextBtn.disabled = true;
+  elements.quizContainer.classList.add('active');
   
-  const q = courseData.questions[currentQuestionIndex];
-  questionCounter.textContent = `Q ${currentQuestionIndex + 1} / ${courseData.questions.length}`;
-  scoreTracker.textContent = `正解: ${correctCount}`;
-  questionText.textContent = q.question;
+  const q = state.currentQuestion;
+  elements.questionCounter.textContent = `Q ${state.currentIndex + 1} / ${state.data.questions.length}`;
+  elements.scoreTracker.textContent = `正解: ${state.correctCount}`;
+  elements.questionText.textContent = q.question;
   
-  optionsContainer.innerHTML = '';
+  elements.optionsContainer.innerHTML = '';
   q.options.forEach((optText, index) => {
     const btn = document.createElement('button');
-    btn.className = 'option-btn stagger-' + ((index % 3) + 1);
+    btn.className = `option-btn stagger-${(index % 3) + 1}`;
     btn.textContent = optText;
     btn.onclick = () => handleAnswer(index, btn);
-    optionsContainer.appendChild(btn);
+    elements.optionsContainer.appendChild(btn);
   });
   
-  // Trigger reflow to restart animation
-  void optionsContainer.offsetWidth;
-  Array.from(optionsContainer.children).forEach(child => child.classList.add('fade-in'));
+  // Use requestAnimationFrame to safely trigger animations
+  requestAnimationFrame(() => {
+    Array.from(elements.optionsContainer.children).forEach(child => child.classList.add('fade-in'));
+  });
 }
 
 function handleAnswer(selectedIndex, selectedBtn) {
-  if (isAnswered) return;
-  isAnswered = true;
+  if (state.isAnswered) return;
+  state.isAnswered = true;
   
-  const q = courseData.questions[currentQuestionIndex];
+  const q = state.currentQuestion;
   const isCorrect = (selectedIndex === q.answerIndex);
   
-  // Update button styles
-  Array.from(optionsContainer.children).forEach((btn, index) => {
+  // Update button styles and add visual feedback icons
+  Array.from(elements.optionsContainer.children).forEach((btn, index) => {
     btn.disabled = true;
     if (index === q.answerIndex) {
       btn.classList.add('correct');
+      if (index === selectedIndex) btn.textContent += ' ✅';
     } else if (index === selectedIndex && !isCorrect) {
       btn.classList.add('wrong');
+      btn.textContent += ' ❌';
     }
   });
 
   if (isCorrect) {
-    correctCount++;
-    scoreTracker.textContent = `正解: ${correctCount}`;
+    state.correctCount++;
+    elements.scoreTracker.textContent = `正解: ${state.correctCount}`;
   }
 
   // Show explanation
-  explanationText.textContent = q.explanation;
-  explanationBox.classList.add('active');
+  elements.explanationText.textContent = q.explanation;
+  elements.explanationBox.classList.add('active');
+  
+  // Smooth scroll to explanation
+  elements.explanationBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
   
   // Enable next button
-  nextBtn.disabled = false;
+  elements.nextBtn.disabled = false;
   
   // Change next button text if it's the last question
-  if (currentQuestionIndex === courseData.questions.length - 1) {
-    nextBtn.textContent = '結果を見る';
+  if (state.currentIndex === state.data.questions.length - 1) {
+    elements.nextBtn.textContent = '結果を見る';
   }
 }
 
-nextBtn.addEventListener('click', () => {
-  currentQuestionIndex++;
-  if (currentQuestionIndex < courseData.questions.length) {
+elements.nextBtn.addEventListener('click', () => {
+  state.currentIndex++;
+  if (!state.isFinished) {
     showQuestion();
   } else {
     showResult();
@@ -114,19 +137,19 @@ nextBtn.addEventListener('click', () => {
 });
 
 function showResult() {
-  quizContainer.classList.remove('active');
-  resultContainer.classList.add('active');
+  elements.quizContainer.classList.remove('active');
+  elements.resultContainer.classList.add('active');
   
-  const total = courseData.questions.length;
-  const percentage = Math.round((correctCount / total) * 100);
+  const total = state.data.questions.length;
+  const percentage = Math.round((state.correctCount / total) * 100);
   
-  document.getElementById('finalScore').textContent = `${correctCount} / ${total} 正解 (${percentage}%)`;
+  elements.finalScore.textContent = `${state.correctCount} / ${total} 正解 (${percentage}%)`;
   
   // Save progress
-  saveQuizResult(currentCourseId, correctCount, total);
+  saveQuizResult(state.courseId, state.correctCount, total);
 }
 
-homeBtn.addEventListener('click', () => {
+elements.homeBtn.addEventListener('click', () => {
   window.location.href = '/';
 });
 
