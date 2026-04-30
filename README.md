@@ -1,59 +1,66 @@
-# プロジェクトテンプレート
+# Cloud Dojo ☁️🥋
 
-AI駆動開発のためのプロジェクトテンプレートです。
+チーム全体のAWSスキル底上げを目的とした、AI搭載クラウド資格学習プラットフォーム（PWA）です。
 
-## 使い方
+## 特徴
 
-### 1. 新規プロジェクトの作成
+- 📱 **モバイルファースト PWA** — 通勤中にスマホで手軽にAWS資格学習
+- 🌙 **プレミアムダークモードUI** — グラスモーフィズム + スムーズアニメーション
+- 📊 **学習進捗トラッキング** — 正答率・連続学習日数の記録
+- 🔌 **オフライン対応** — Service Workerによるオフライン学習
 
-```bash
-# テンプレートをクローン
-git clone ssh://git@192.168.1.203:30009/h.oota/project-template.git <プロジェクト名>
-cd <プロジェクト名>
+## 対応資格
 
-# Gitの履歴をリセット（新規プロジェクトとして開始）
-rm -rf .git
-git init
-git branch -m main
+- AWS Certified Cloud Practitioner (CLF-C02)
+- AWS Certified Solutions Architect - Associate (SAA-C03)
 
-# 新しいリモートを設定
-git remote add origin <GiteaのURL>
-```
-
-### 2. Dual Remote設定（オプション）
-
-GitHub公開も予定している場合：
+## クイックスタート
 
 ```bash
-/setup-dual-remote
+npm install
+npm run dev
 ```
 
-## 含まれるファイル
+開発サーバーが `http://localhost:5173` で起動します。
 
-```
-.agent/workflows/     # Antigravityワークフロー
-├── backup.md         # Giteaバックアップ
-├── export-context.md # AIレビュー用エクスポート
-├── publish.md        # GitHub公開
-├── review-feedback.md # レビュー結果取り込み
-└── setup-dual-remote.md # Dual Remote設定
+## ビルド
 
-docs/
-└── development_workflow.md  # 開発フロードキュメント
-
-.gitignore            # 標準的な除外設定
+```bash
+npm run build
+npm run preview  # ビルド結果のプレビュー
 ```
 
-## ワークフローコマンド
+## 技術スタック
 
-| コマンド | 説明 |
+| カテゴリ | 技術 |
 |---------|------|
-| `/backup` | Giteaにバックアップ |
-| `/publish` | GitHubへスクッシュマージ公開 |
-| `/review-feedback` | 外部AIレビュー結果を取り込む |
-| `/export-context` | repomixでエクスポート |
-| `/setup-dual-remote` | Dual Remote設定 |
+| フロントエンド | HTML5, Vanilla CSS, Vanilla JavaScript |
+| ビルドツール | Vite 7.x |
+| PWA | vite-plugin-pwa |
+| データ保存 | localStorage (Phase 1) |
 
-## 詳細
+## プロジェクト構成
 
-開発フローの詳細は [docs/development_workflow.md](docs/development_workflow.md) を参照してください。
+```
+├── index.html          # コース選択画面
+├── app.html            # クイズ画面
+├── vite.config.js      # Vite + PWA設定
+├── src/
+│   ├── css/            # デザインシステム
+│   └── js/             # アプリロジック
+└── public/
+    └── data/           # 問題セット (JSON)
+```
+
+## 開発フェーズ
+
+| フェーズ | 内容 | ステータス |
+|---------|------|-----------|
+| Phase 1 | PWAフロントエンド + 静的問題セット | ✅ 完了 |
+| Phase 2 | GCPバックエンド (OAuth + Firestore + Cloud Run) | 🔜 次 |
+| Phase 3 | Vertex AI 統合 (動的問題生成) | 📋 計画中 |
+| Phase 4 | チーム管理ダッシュボード | 📋 計画中 |
+
+## ライセンス
+
+ISC
