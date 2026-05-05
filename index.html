@@ -20,17 +20,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Chart.js for Radar Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="dark-theme">
   <div class="app-container">
     <header class="glass-header">
       <h1>Cloud Dojo</h1>
-      <div class="user-progress" id="userProgress">
-        <!-- JSで進捗を挿入 -->
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <div class="user-progress" id="userProgress">
+          <!-- JSで進捗を挿入 -->
+        </div>
+        <button id="settingsBtn" class="icon-btn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary);" title="設定">⚙️</button>
       </div>
     </header>
 
     <main class="course-selection" id="courseSelection">
+      <!-- Dashboard Section -->
+      <section class="dashboard-section glass-card" style="margin-bottom: 2rem; display: none;" id="dashboardSection">
+        <h2 class="section-title" style="margin-bottom: 1rem;">AI 弱点分析ダッシュボード</h2>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;" class="dashboard-content">
+          <div style="width: 100%; max-width: 350px; margin: 0 auto;">
+            <canvas id="radarChart"></canvas>
+          </div>
+          <div class="ai-advice-box" style="flex: 1; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: var(--radius-sm); border-left: 4px solid var(--aws-orange);">
+            <h3 style="color: var(--aws-orange); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+              <span>🤖</span> AI チューターのアドバイス
+            </h3>
+            <p id="aiAdviceText" style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">設定からGemini APIキーを登録し、学習を進めると、ここに弱点分析レポートが表示されます。</p>
+            <button id="generateAiQuestionsBtn" class="btn-primary" style="margin-top: 1rem; width: 100%; display: none;">弱点補強問題をAI生成する</button>
+          </div>
+        </div>
+      </section>
       <h2 class="section-title">学習コースを選択</h2>
       
       <div class="course-cards">
@@ -72,5 +93,28 @@
   </div>
 
   <script type="module" src="/src/js/main.js"></script>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
+    <div class="glass-card" style="max-width: 400px; width: 90%; padding: 2rem; position: relative; animation: fadeIn 0.3s;">
+      <button id="closeSettingsBtn" style="position: absolute; top: 1rem; right: 1.5rem; background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.5rem;">&times;</button>
+      <h2 style="margin-bottom: 1.5rem;">設定</h2>
+      <div style="margin-bottom: 1.5rem;">
+        <label for="geminiApiKey" style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">Gemini API Key</label>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="password" id="geminiApiKey" placeholder="AIzaSy..." style="flex: 1; padding: 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light); background: rgba(255,255,255,0.05); color: white; font-size: 1rem; box-sizing: border-box;">
+          <button id="fetchModelsBtn" class="btn-secondary" style="white-space: nowrap;">モデル取得</button>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;"><a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--vertex-blue); text-decoration: none;">Google AI Studio</a> で無料で取得できます。<br>※キーはお使いのデバイス(localStorage)にのみ保存され、外部サーバーには送信されません。</p>
+      </div>
+      <div style="margin-bottom: 1.5rem;">
+        <label for="geminiModel" style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">利用モデル</label>
+        <select id="geminiModel" style="width: 100%; padding: 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light); background: rgba(0,0,0,0.5); color: white; font-size: 1rem;">
+          <option value="">(APIキーを入力して取得してください)</option>
+        </select>
+      </div>
+      <button id="saveSettingsBtn" class="btn-primary" style="width: 100%;">保存</button>
+    </div>
+  </div>
 </body>
 </html>

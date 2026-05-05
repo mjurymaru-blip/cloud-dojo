@@ -59,7 +59,20 @@ async function initQuiz() {
     return;
   }
 
-  state.data = await fetchQuestions(state.courseId);
+  if (mode === 'ai-custom') {
+    const customStr = localStorage.getItem('customQuestions');
+    let customQs = [];
+    if (customStr) {
+      customQs = JSON.parse(customStr).filter(q => q.courseId === state.courseId);
+    }
+    state.data = {
+      title: '🤖 AIオリジナル弱点補強テスト',
+      questions: customQs
+    };
+  } else {
+    state.data = await fetchQuestions(state.courseId);
+  }
+  
   elements.loadingIndicator.style.display = 'none';
 
   if (!state.data || !state.data.questions || state.data.questions.length === 0) {
