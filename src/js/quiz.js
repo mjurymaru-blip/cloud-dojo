@@ -9,6 +9,7 @@ class QuizState {
     this.currentIndex = 0;
     this.correctCount = 0;
     this.isAnswered = false;
+    this.questionResults = []; // Phase 2: 問題ごとの結果を蓄積
   }
 
   get currentQuestion() {
@@ -17,6 +18,13 @@ class QuizState {
 
   get isFinished() {
     return this.currentIndex >= (this.data?.questions.length || 0);
+  }
+
+  /**
+   * 問題ごとの回答結果を記録する
+   */
+  recordAnswer(questionId, category, isCorrect, selectedIndex) {
+    this.questionResults.push({ questionId, category, isCorrect, selectedIndex });
   }
 }
 
@@ -42,9 +50,12 @@ const elements = {
 async function initQuiz() {
   const params = new URLSearchParams(window.location.search);
   state.courseId = params.get('course');
+  const mode = params.get('mode'); // 'review' で弱点克服モード
+  const categoryFilter = params.get('category'); // 分野指定
+  const limit = params.get('limit') ? parseInt(params.get('limit'), 10) : null;
 
   if (!state.courseId) {
-    window.location.href = '/';
+    window.location.href = './';
     return;
   }
 
@@ -53,6 +64,44 @@ async function initQuiz() {
 
   if (!state.data || !state.data.questions || state.data.questions.length === 0) {
     elements.quizContainer.innerHTML = '<p>問題データの読み込みに失敗しました。</p>';
+    elements.quizContainer.classList.add('active');
+    return;
+  }
+
+  let filteredQuestions = [...state.data.questions];
+
+  // 1. 弱点克服モード: 間違えた問題だけにフィルタリング
+  if (mode === 'review') {
+    const { getWrongQuestionIds } = await import('./storage.js');
+    const wrongIds = getWrongQuestionIds(state.courseId);
+    filteredQuestions = filteredQuestions.filter(q => wrongIds.includes(q.id));
+    state.data.title += '【復習モード】';
+  }
+
+  // 2. カテゴリフィルタリング
+  if (categoryFilter) {
+    filteredQuestions = filteredQuestions.filter(q => q.category === categoryFilter);
+    const catObj = state.data.categories?.find(c => c.id === categoryFilter);
+    if (catObj) {
+      state.data.title += ` - ${catObj.name}`;
+    }
+  }
+
+  // 3. シャッフルとリミット（ミニテスト化）
+  // 復習モード以外、またはlimitが指定されている場合はシャッフルして抽出
+  if (limit && filteredQuestions.length > limit) {
+    // Fisher-Yates shuffle
+    for (let i = filteredQuestions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [filteredQuestions[i], filteredQuestions[j]] = [filteredQuestions[j], filteredQuestions[i]];
+    }
+    filteredQuestions = filteredQuestions.slice(0, limit);
+  }
+
+  state.data.questions = filteredQuestions;
+
+  if (state.data.questions.length === 0) {
+    elements.quizContainer.innerHTML = '<p>出題する問題がありません。ホームに戻ってください。</p>';
     elements.quizContainer.classList.add('active');
     return;
   }
@@ -111,6 +160,9 @@ function handleAnswer(selectedIndex, selectedBtn) {
     elements.scoreTracker.textContent = `正解: ${state.correctCount}`;
   }
 
+  // Phase 2: 問題ごとの結果を記録
+  state.recordAnswer(q.id, q.category || '', isCorrect, selectedIndex);
+
   // Show explanation
   elements.explanationText.textContent = q.explanation;
   elements.explanationBox.classList.add('active');
@@ -145,12 +197,12 @@ function showResult() {
   
   elements.finalScore.textContent = `${state.correctCount} / ${total} 正解 (${percentage}%)`;
   
-  // Save progress
-  saveQuizResult(state.courseId, state.correctCount, total);
+  // Save progress with detailed question results
+  saveQuizResult(state.courseId, state.correctCount, total, state.questionResults);
 }
 
 elements.homeBtn.addEventListener('click', () => {
-  window.location.href = '/';
+  window.location.href = './';
 });
 
 document.addEventListener('DOMContentLoaded', initQuiz);

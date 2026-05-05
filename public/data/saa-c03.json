@@ -1,9 +1,17 @@
 {
   "courseId": "saa-c03",
   "title": "AWS Certified Solutions Architect - Associate",
+  "categories": [
+    { "id": "resilient-arch", "name": "レジリエントアーキテクチャの設計" },
+    { "id": "high-perf-arch", "name": "高パフォーマンスアーキテクチャの設計" },
+    { "id": "secure-arch", "name": "セキュアなアーキテクチャの設計" },
+    { "id": "cost-optimized-arch", "name": "コスト最適化アーキテクチャの設計" }
+  ],
   "questions": [
     {
       "id": "saa-001",
+      "category": "resilient-arch",
+      "difficulty": 2,
       "question": "ある企業が、予測不可能なトラフィックの急増を伴うウェブアプリケーションをAWSに移行します。最もコスト効率よくトラフィック変動に対応できるアーキテクチャはどれですか？",
       "options": [
         "ピーク時のトラフィックに合わせてAmazon EC2リザーブドインスタンスを購入する",
@@ -16,6 +24,8 @@
     },
     {
       "id": "saa-002",
+      "category": "secure-arch",
+      "difficulty": 2,
       "question": "Amazon S3に保存されている機密データに対して、データの保存時の暗号化（Server-Side Encryption）を自動的に強制するにはどうすればよいですか？",
       "options": [
         "S3バケットポリシーを使用して、暗号化ヘッダーのないPutObjectリクエストを拒否する",
@@ -25,6 +35,1028 @@
       ],
       "answerIndex": 0,
       "explanation": "S3バケットポリシーを使用すると、アップロードリクエスト（s3:PutObject）に特定の暗号化要件（例：x-amz-server-side-encryption ヘッダー）が含まれていない場合、そのリクエストを拒否して暗号化を強制できます。"
+    },
+    {
+      "id": "saa-003",
+      "category": "high-perf-arch",
+      "difficulty": 2,
+      "question": "Amazon DynamoDBテーブルで、予測不可能なトラフィックパターンに対応しながらコストを最小限に抑えるキャパシティモードはどれですか？",
+      "options": [
+        "プロビジョニングドキャパシティモード（Auto Scaling無効）",
+        "プロビジョニングドキャパシティモード（Auto Scaling有効）",
+        "オンデマンドキャパシティモード",
+        "リザーブドキャパシティモード"
+      ],
+      "answerIndex": 2,
+      "explanation": "オンデマンドキャパシティモードは、実際の読み書きリクエストに応じて自動的にスケーリングし、使用した分だけ課金されるため、予測不可能なワークロードに最適です。"
+    },
+    {
+      "id": "saa-004",
+      "category": "cost-optimized-arch",
+      "difficulty": 2,
+      "question": "使用頻度が低いが、リクエスト時には即座にアクセスが必要なデータに対して、最もコスト効率の良いAmazon S3ストレージクラスはどれですか？",
+      "options": [
+        "S3 Standard",
+        "S3 Standard-Infrequent Access (S3 Standard-IA)",
+        "S3 Glacier Deep Archive",
+        "S3 One Zone-Infrequent Access (S3 One Zone-IA)"
+      ],
+      "answerIndex": 1,
+      "explanation": "S3 Standard-IA はアクセス頻度は低いが即座にアクセスが必要なデータに最適です。S3 Standardよりストレージ料金が安く、取り出しは即時（ミリ秒アクセス）です。高い可用性が必要な場合はStandard-IA、耐障害性の低下を許容できればOne Zone-IAも検討できます。"
+    },
+    {
+      "id": "saa-005",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "ステートフルなウェブアプリケーションで、ユーザーセッション情報をEC2インスタンスから分離するのに最も適切なソリューションはどれですか？",
+      "options": [
+        "Amazon EBS ボリュームにセッションデータを保存する",
+        "スティッキーセッション（セッションアフィニティ）を有効にする",
+        "Amazon ElastiCache for Redis をセッションストアとして使用する",
+        "セッションデータをAmazon S3に保存する"
+      ],
+      "answerIndex": 2,
+      "explanation": "ElastiCache for Redis は、高速なインメモリデータストアであり、セッション情報の集中管理に最適です。EC2からセッション状態を分離することで、Auto Scalingによるスケーリングが容易になり、障害耐性も向上します。"
+    },
+    {
+      "id": "saa-006",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "複数のAWSアカウント間で、特定のIAMロールを使って安全にクロスアカウントアクセスを実現するには、どのアプローチが最も適切ですか？",
+      "options": [
+        "アクセス先アカウントでIAMユーザーを作成し、認証情報を共有する",
+        "アクセス先アカウントでIAMロールを作成し、信頼ポリシーでソースアカウントからのAssumeRoleを許可する",
+        "両方のアカウントでAWS Organizationsの一括請求のみを設定する",
+        "アクセス元アカウントのセキュリティグループにアクセス先のCIDR範囲を追加する"
+      ],
+      "answerIndex": 1,
+      "explanation": "クロスアカウントアクセスのベストプラクティスは、アクセス先アカウントでIAMロールを作成し、信頼ポリシー（trust policy）でソースアカウントのプリンシパルからのsts:AssumeRoleを許可する方法です。認証情報の共有はセキュリティリスクとなるため避けるべきです。"
+    },
+    {
+      "id": "saa-007",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "あるアプリケーションはAmazon SQSキューからメッセージを処理しています。メッセージの処理に失敗した場合、そのメッセージを別のキューに移動して後で分析できるようにするにはどうすればよいですか？",
+      "options": [
+        "AWS Lambda関数を使用して失敗したメッセージを手動で抽出する",
+        "デッドレターキュー (DLQ) を設定し、最大受信数 (maxReceiveCount) を指定する",
+        "SQSのメッセージ保持期間を延長する",
+        "Amazon SNSトピックをサブスクライブしてエラー通知を受け取る"
+      ],
+      "answerIndex": 1,
+      "explanation": "デッドレターキュー (DLQ) は、指定された回数 (maxReceiveCount) 処理に失敗したメッセージを自動的に退避させるためのSQSの機能です。これにより、システムをブロックすることなくエラーメッセージを後で分析できます。"
+    },
+    {
+      "id": "saa-008",
+      "category": "high-perf-arch",
+      "difficulty": 2,
+      "question": "グローバルに展開するアプリケーションにおいて、静的アセット（画像や動画）の配信レイテンシーを最小限に抑えるための最適なAWSサービスはどれですか？",
+      "options": [
+        "AWS Global Accelerator",
+        "Amazon S3 Transfer Acceleration",
+        "Amazon CloudFront",
+        "Amazon Route 53 レイテンシールーティング"
+      ],
+      "answerIndex": 2,
+      "explanation": "Amazon CloudFrontはグローバルなCDN（コンテンツ配信ネットワーク）であり、世界中のエッジロケーションに静的・動的コンテンツをキャッシュすることで、ユーザーへの配信レイテンシーを劇的に低減させます。"
+    },
+    {
+      "id": "saa-009",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "Amazon EC2インスタンスがSystems Manager (SSM) Session Managerを使用して安全に管理されるようにするための前提条件は何ですか？（2つ選択）",
+      "options": [
+        "EC2インスタンスにSSMエージェントがインストールされ、実行されていること",
+        "インバウンドのポート22（SSH）を開放するセキュリティグループルール",
+        "EC2インスタンスにAmazonSSMManagedInstanceCoreポリシーを含むIAMロールがアタッチされていること",
+        "AWS VPN接続を確立すること"
+      ],
+      "answerIndex": 2,
+      "explanation": "※本来は複数選択ですが、単一選択のシステムのため最も重要なIAM権限を正解とします。SSM Session Managerを使用するには、インスタンスにSSMエージェントが動作していることと、SSMと通信するための適切なIAMロール（AmazonSSMManagedInstanceCore等）がアタッチされていることが必須です。インバウンドポートの開放は不要なのがSession Managerの強みです。"
+    },
+    {
+      "id": "saa-010",
+      "category": "cost-optimized-arch",
+      "difficulty": 2,
+      "question": "ステートレスで中断可能なバッチ処理ワークロードを実行するために、最もコストを削減できるAmazon EC2の購入オプションはどれですか？",
+      "options": [
+        "オンデマンドインスタンス",
+        "リザーブドインスタンス",
+        "スポットインスタンス",
+        "専用ホスト"
+      ],
+      "answerIndex": 2,
+      "explanation": "スポットインスタンスは、AWSの余剰キャパシティをオンデマンド価格の最大90%割引で利用できるオプションです。インスタンスが中断される可能性があるため、ステートレスでフォールトトレラント（中断可能）なワークロード（バッチ処理など）に最適です。"
+    },
+    {
+      "id": "saa-011",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "Amazon RDS データベースの読み取り負荷が高く、パフォーマンスが低下しています。読み取り負荷を分散し、パフォーマンスを向上させるための最適な方法はどれですか？",
+      "options": [
+        "RDSマルチAZ配置を有効にする",
+        "リードレプリカ (Read Replica) を作成し、読み取りトラフィックをルーティングする",
+        "RDSのインスタンスクラスをスケールアップする",
+        "Amazon ElastiCache をデータベースの前に配置してすべてのクエリをキャッシュする"
+      ],
+      "answerIndex": 1,
+      "explanation": "リードレプリカは読み取り専用のデータベースコピーであり、読み取りトラフィックをメインのDBインスタンスからオフロードするのに最適です。マルチAZは可用性（フェイルオーバー）のためであり、読み取りスケーリングには使えません。"
+    },
+    {
+      "id": "saa-012",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "HPC (ハイパフォーマンスコンピューティング) ワークロードのために、EC2インスタンス間のネットワークレイテンシーを最小限にし、スループットを最大化する配置グループ (Placement Group) の戦略はどれですか？",
+      "options": [
+        "クラスター配置グループ (Cluster Placement Group)",
+        "スプレッド配置グループ (Spread Placement Group)",
+        "パーティション配置グループ (Partition Placement Group)",
+        "マルチAZ配置グループ (Multi-AZ Placement Group)"
+      ],
+      "answerIndex": 0,
+      "explanation": "クラスター配置グループは、単一のアベイラビリティーゾーン内でインスタンスを論理的にグループ化し、低レイテンシーで高スループットのネットワークパフォーマンスを実現します。HPCワークロードに最適です。"
+    },
+    {
+      "id": "saa-013",
+      "category": "secure-arch",
+      "difficulty": 2,
+      "question": "AWSアカウントでAPI呼び出しの履歴（誰が、いつ、どのIPからAPIを実行したか）を記録し、セキュリティ監査に利用するためのサービスはどれですか？",
+      "options": [
+        "Amazon CloudWatch Logs",
+        "AWS Config",
+        "AWS CloudTrail",
+        "AWS IAM Access Analyzer"
+      ],
+      "answerIndex": 2,
+      "explanation": "AWS CloudTrail は、AWS アカウントのガバナンス、コンプライアンス、運用監査、リスク監査を行うためのサービスです。AWS マネジメントコンソール、AWS SDK、コマンドラインツール経由で行われた API 呼び出しの履歴を記録します。"
+    },
+    {
+      "id": "saa-014",
+      "category": "cost-optimized-arch",
+      "difficulty": 3,
+      "question": "Amazon S3に保存されているデータで、アクセスパターンが不明または予測不可能な場合、ストレージコストを自動的に最適化するのに適したストレージクラスはどれですか？",
+      "options": [
+        "S3 Standard",
+        "S3 Intelligent-Tiering",
+        "S3 Standard-IA",
+        "S3 Glacier Flexible Retrieval"
+      ],
+      "answerIndex": 1,
+      "explanation": "S3 Intelligent-Tiering は、アクセスパターンをモニタリングし、アクセス頻度の低いデータを自動的に低コストのアクセス階層に移動することで、パフォーマンスへの影響や運用オーバーヘッドなしに自動でコストを削減します。"
+    },
+    {
+      "id": "saa-015",
+      "category": "resilient-arch",
+      "difficulty": 2,
+      "question": "Amazon Route 53で、トラフィックを複数のAWSリージョンに分散させ、最もレイテンシーの低いリージョンにユーザーを誘導するルーティングポリシーはどれですか？",
+      "options": [
+        "シンプルルーティング",
+        "加重ルーティング",
+        "フェイルオーバールーティング",
+        "レイテンシールーティング"
+      ],
+      "answerIndex": 3,
+      "explanation": "レイテンシールーティングポリシーを使用すると、Route 53 はユーザーに最も低いレイテンシー (遅延) を提供できる AWS リージョンのリソースにリクエストをルーティングします。"
+    },
+    {
+      "id": "saa-016",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "オンプレミスのデータセンターからAWSへの安定した低レイテンシー接続が必要な場合、インターネットをバイパスして専用線接続を確立するサービスはどれですか？",
+      "options": [
+        "AWS VPN (Site-to-Site VPN)",
+        "AWS Direct Connect",
+        "Amazon API Gateway",
+        "AWS Transit Gateway"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS Direct Connect は、お客様のネットワークとAWSの間に専用のプライベートネットワーク接続を確立します。インターネットを経由しないため、VPNよりも一貫した低レイテンシーと高帯域幅を提供します。"
+    },
+    {
+      "id": "saa-017",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "AWS WAF（Web Application Firewall）をアタッチして、SQLインジェクションやクロスサイトスクリプティング (XSS) 攻撃から保護できるリソースはどれですか？（代表的なものを選択）",
+      "options": [
+        "Amazon EC2 と Amazon RDS",
+        "Amazon S3 と Amazon DynamoDB",
+        "Application Load Balancer (ALB) と Amazon CloudFront",
+        "AWS Lambda と Amazon SQS"
+      ],
+      "answerIndex": 2,
+      "explanation": "AWS WAF は、HTTP/HTTPS トラフィックをモニタリングし、保護対象リソースに転送されるリクエストを制御します。対応している主なリソースは、Amazon CloudFront、Application Load Balancer (ALB)、Amazon API Gateway、AWS AppSync などです。"
+    },
+    {
+      "id": "saa-018",
+      "category": "cost-optimized-arch",
+      "difficulty": 2,
+      "question": "1年または3年の期間、特定のインスタンスファミリーやリージョンに関係なく、特定の金額（$/時間）のコンピュート使用量をコミットすることで、大幅な割引を適用する料金モデルはどれですか？",
+      "options": [
+        "リザーブドインスタンス (RI)",
+        "スポットインスタンス",
+        "Compute Savings Plans",
+        "ボリュームディスカウント"
+      ],
+      "answerIndex": 2,
+      "explanation": "Compute Savings Plans は、柔軟性が最も高い Savings Plans です。インスタンスファミリー、サイズ、AZ、リージョン、OS、テナンシーにかかわらず（EC2、Fargate、Lambdaのすべてをカバー）、コミットした使用量に対して割引が適用されます。"
+    },
+    {
+      "id": "saa-019",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "災害対策 (DR) において、「パイロットライト」アプローチを最もよく表している説明はどれですか？",
+      "options": [
+        "本番環境と全く同じ構成を別リージョンで常に稼働させておく",
+        "データは別リージョンに同期しているが、インフラは最小限のコア部分のみを稼働させ、災害時にフルスケールする",
+        "バックアップデータのみをS3に保存しておき、災害時にインフラをゼロから構築する",
+        "データベースのリードレプリカのみを別リージョンに配置し、アプリケーションサーバーは構築しない"
+      ],
+      "answerIndex": 1,
+      "explanation": "パイロットライト (Pilot Light) アプローチは、データベースなどの最も重要なコアシステムのみを別リージョンで稼働（または即時復旧可能な状態に）させておき、災害発生時にWeb/Appサーバーなどの残りのインフラを起動してスケールアウトさせるDR戦略です。"
+    },
+    {
+      "id": "saa-020",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "非定型のクエリや複雑な結合を多用するデータ分析（OLAP）ワークロードに最適なデータベースサービスはどれですか？",
+      "options": [
+        "Amazon RDS",
+        "Amazon DynamoDB",
+        "Amazon Redshift",
+        "Amazon DocumentDB"
+      ],
+      "answerIndex": 2,
+      "explanation": "Amazon Redshift は、ペタバイト規模のデータを処理できるフルマネージド型のデータウェアハウスサービスであり、大量のデータに対する複雑な分析クエリ（OLAPワークロード）を高速に実行するのに最適化されています。"
+    },
+    {
+      "id": "saa-021",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "AWS Organizations を使用している環境で、特定のアカウント内のユーザーやロールが特定のAWSサービス（例：IAMの変更）にアクセスするのを一括で禁止できる機能はどれですか？",
+      "options": [
+        "IAM ロールの権限境界 (Permissions Boundary)",
+        "サービスコントロールポリシー (SCP)",
+        "VPC エンドポイントポリシー",
+        "AWS Resource Access Manager (RAM)"
+      ],
+      "answerIndex": 1,
+      "explanation": "サービスコントロールポリシー (SCP) は、AWS Organizations で組織全体、OU、またはアカウントレベルで有効な権限の上限を設定するためのポリシーです。SCPで拒否 (Deny) されたアクションは、アカウント内の管理者 (ルートユーザー含む) であっても実行できなくなります。"
+    },
+    {
+      "id": "saa-022",
+      "category": "cost-optimized-arch",
+      "difficulty": 3,
+      "question": "Amazon RDS で、開発・テスト環境向けのデータベースを運用しています。夜間や週末は使用されないため、コストを節約する最も適切な方法はどれですか？",
+      "options": [
+        "データベースを削除し、月曜の朝にスナップショットから復元する",
+        "RDSインスタンスを一時停止 (Stop) 状態にする",
+        "インスタンスクラスをマイクロサイズに変更する",
+        "Amazon S3 にデータをエクスポートする"
+      ],
+      "answerIndex": 1,
+      "explanation": "開発環境などの非本番RDSインスタンスは、不要な時間帯（最大7日間）に手動で一時停止（Stop）させることで、コンピュートの課金を停止できコストを最適化できます（ストレージ料金は引き続き発生します）。"
+    },
+    {
+      "id": "saa-023",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "イベント駆動型アーキテクチャで、送信側のシステムが受信側のシステムの処理能力を上回るスピードでデータを送信する可能性がある場合、システム間の結合を疎にし、メッセージの損失を防ぐのに適したAWSサービスはどれですか？",
+      "options": [
+        "Amazon Kinesis Data Streams",
+        "Amazon SQS (Simple Queue Service)",
+        "Amazon SNS (Simple Notification Service)",
+        "AWS Step Functions"
+      ],
+      "answerIndex": 1,
+      "explanation": "Amazon SQS はフルマネージドのメッセージキューイングサービスであり、システム間を「疎結合」にします。送信側がメッセージをキューに蓄積し、受信側が自分のペースでキューからメッセージをプル（取得）して処理できるため、トラフィックのスパイクを吸収（バッファ）できます。"
+    },
+    {
+      "id": "saa-024",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "TCP/UDPのトラフィックをグローバルに負荷分散し、AWSのグローバルネットワークを利用してアプリケーションのパフォーマンスを向上させるサービスはどれですか？",
+      "options": [
+        "Application Load Balancer (ALB)",
+        "Amazon CloudFront",
+        "AWS Global Accelerator",
+        "Amazon API Gateway"
+      ],
+      "answerIndex": 2,
+      "explanation": "AWS Global Accelerator は、ユーザーのトラフィックを最も近いエッジロケーションからAWSのグローバルネットワークに引き込み、ALBやEC2などにルーティングするサービスです。TCP/UDPプロトコルに対応し、IPキャッシングによる遅延を回避するための静的エニーキャストIPを提供します。"
+    },
+    {
+      "id": "saa-025",
+      "category": "secure-arch",
+      "difficulty": 2,
+      "question": "S3バケットへの不正なアクセスや、クレジットカード番号などの機密データがS3に保存されていないかを機械学習を用いて自動的に検出するセキュリティサービスはどれですか？",
+      "options": [
+        "Amazon GuardDuty",
+        "AWS Shield",
+        "Amazon Inspector",
+        "Amazon Macie"
+      ],
+      "answerIndex": 3,
+      "explanation": "Amazon Macie は、機械学習とパターンマッチングを使用して、AWS 上の機密データ（個人情報、財務データなど）を自動的に検出し、保護するデータセキュリティおよびデータプライバシーサービスです。主にS3バケットをスキャンします。"
+    },
+    {
+      "id": "saa-026",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "Amazon S3バケット間で、オブジェクト作成や削除の操作を別のAWSリージョンにあるバケットに自動的に複製してディザスタリカバリ(DR)要件を満たす機能はどれですか？",
+      "options": [
+        "S3 Transfer Acceleration",
+        "S3 Cross-Region Replication (CRR)",
+        "S3 Lifecycle Policies",
+        "AWS DataSync"
+      ],
+      "answerIndex": 1,
+      "explanation": "S3 クロスリージョンレプリケーション (CRR) を有効にすると、あるリージョンのソースバケットにアップロードされたオブジェクトが、別のリージョンの宛先バケットに非同期で自動的にコピーされます。これにはバージョン管理の有効化が必要です。"
+    },
+    {
+      "id": "saa-027",
+      "category": "high-perf-arch",
+      "difficulty": 2,
+      "question": "大量の画像ファイルが保存されているS3バケットがあります。各画像がアップロードされた直後に自動的にサムネイル画像を生成する処理を実行するには、どのAWSサービスを組み合わせるのが最適ですか？",
+      "options": [
+        "S3 Event Notifications と AWS Lambda",
+        "Amazon CloudWatch Events と Amazon EC2",
+        "Amazon API Gateway と AWS Lambda",
+        "Amazon SQS と AWS Batch"
+      ],
+      "answerIndex": 0,
+      "explanation": "S3 イベント通知 (Event Notifications) を設定することで、オブジェクトが作成 (Put) されたタイミングでAWS Lambda関数を自動的にトリガーできます。Lambdaでサーバーレスにサムネイル生成を行うのが最も一般的でスケーラブルなアーキテクチャです。"
+    },
+    {
+      "id": "saa-028",
+      "category": "secure-arch",
+      "difficulty": 2,
+      "question": "AWSリソースへのアクセス権限を一時的に付与するために、STS (Security Token Service) から取得した一時的なセキュリティ認証情報を使用するIAMリソースはどれですか？",
+      "options": [
+        "IAM ユーザー",
+        "IAM ロール",
+        "IAM ポリシー",
+        "IAM グループ"
+      ],
+      "answerIndex": 1,
+      "explanation": "IAM ロールには標準の長期的な認証情報 (パスワードやアクセスキー) はありません。代わりに、ユーザー、アプリケーション、またはサービスがロールを引き受ける (AssumeRole) と、AWS STSが動的に一時的なセキュリティ認証情報を提供します。"
+    },
+    {
+      "id": "saa-029",
+      "category": "cost-optimized-arch",
+      "difficulty": 2,
+      "question": "複数のAmazon EC2インスタンスがマウントでき、可用性と耐久性が高く、ペタバイト規模まで自動的にスケールするファイルストレージサービスはどれですか？",
+      "options": [
+        "Amazon Elastic Block Store (EBS)",
+        "Amazon Simple Storage Service (S3)",
+        "Amazon Elastic File System (EFS)",
+        "Amazon FSx for Windows File Server"
+      ],
+      "answerIndex": 2,
+      "explanation": "Amazon EFS は、複数のEC2インスタンスから同時にアクセス（NFSプロトコル）できる、Linuxワークロード向けのスケーラブルでフルマネージドな共有ファイルシステムです。EBSは単一のインスタンスにしかアタッチできません。"
+    },
+    {
+      "id": "saa-030",
+      "category": "resilient-arch",
+      "difficulty": 2,
+      "question": "Application Load Balancer (ALB) が登録されたEC2インスタンスにトラフィックを送信する前に、そのインスタンスが正常に稼働しているかを確認する機能を何と呼びますか？",
+      "options": [
+        "Auto Scaling ヘルスチェック",
+        "Route 53 ヘルスチェック",
+        "ターゲットグループのヘルスチェック",
+        "CloudWatch アラーム"
+      ],
+      "answerIndex": 2,
+      "explanation": "ALBは「ターゲットグループ」にトラフィックをルーティングします。ターゲットグループにはヘルスチェックの設定があり、ALBは定期的にリクエスト（HTTP pingなど）を送信して、ターゲットが正常（Healthy）な場合にのみトラフィックを転送します。"
+    },
+    {
+      "id": "saa-031",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "Amazon S3のオブジェクトを誤って削除してしまった場合でも、データを復元できるようにするための機能はどれですか？",
+      "options": [
+        "S3 Transfer Acceleration",
+        "S3 オブジェクトロック",
+        "S3 バージョニング",
+        "AWS Backup"
+      ],
+      "answerIndex": 2,
+      "explanation": "S3バージョニングを有効にすると、同じオブジェクトに対するすべてのアップロードが新しいバージョンとして保存されます。誤って削除した場合でも「削除マーカー」が付与されるだけで、以前のバージョンから簡単に復元できます。"
+    },
+    {
+      "id": "saa-032",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "マイクロサービスアーキテクチャにおいて、多数のコンテナ化されたサービスが相互に検出して通信する必要がある場合、トラフィックの管理とサービスディスカバリを簡素化するマネージドサービスはどれですか？",
+      "options": [
+        "AWS App Mesh",
+        "Amazon API Gateway",
+        "AWS Direct Connect",
+        "Amazon Route 53"
+      ],
+      "answerIndex": 0,
+      "explanation": "AWS App Mesh は、サービスメッシュを提供する機能であり、コンテナ化されたマイクロサービス間の通信を標準化・管理します。エンドツーエンドの可視性と高可用性のためのトラフィックルーティングを提供します。"
+    },
+    {
+      "id": "saa-033",
+      "category": "secure-arch",
+      "difficulty": 2,
+      "question": "AWSアカウントにサインインしようとしているユーザーが、パスワードに加えてスマートフォンなどで生成されたコードを入力するように要求するセキュリティメカニズムは何ですか？",
+      "options": [
+        "SSO (シングルサインオン)",
+        "MFA (多要素認証)",
+        "KMS 暗号化",
+        "IAM ロール"
+      ],
+      "answerIndex": 1,
+      "explanation": "多要素認証 (MFA) は、ユーザー名とパスワード（第1要素）に加えて、物理トークンや認証アプリから取得したワンタイムコード（第2要素）の入力を要求することで、セキュリティを大幅に強化します。"
+    },
+    {
+      "id": "saa-034",
+      "category": "cost-optimized-arch",
+      "difficulty": 3,
+      "question": "Amazon DynamoDBで、アイテムの有効期限が切れたときに自動的にデータベースから削除されるように設定し、ストレージコストを削減する機能はどれですか？",
+      "options": [
+        "DynamoDB Streams",
+        "DynamoDB Time to Live (TTL)",
+        "Amazon CloudWatch Events",
+        "AWS Lambda スケジューラー"
+      ],
+      "answerIndex": 1,
+      "explanation": "DynamoDB Time to Live (TTL) は、各アイテムに有効期限 (タイムスタンプ) を設定することで、期限が過ぎたアイテムを自動的かつ追加コストなしで削除する機能です。ログやセッションデータの自動削除に最適です。"
+    },
+    {
+      "id": "saa-035",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "Amazon EC2インスタンスがシステムステータスチェックの失敗により到達不能になった場合、自動的にインスタンスを復旧 (Recover) させるための最も簡単な方法はどれですか？",
+      "options": [
+        "Auto ScalingグループのヘルスチェックタイプをEC2に変更する",
+        "CloudWatchアラームを作成し、EC2アクションとして「インスタンスの復旧」を設定する",
+        "AWS Lambda関数を定期実行し、APIで状態を確認して再起動する",
+        "AWS Systems Manager (SSM) のRun Commandを使用する"
+      ],
+      "answerIndex": 1,
+      "explanation": "EC2インスタンスの自動復旧機能は、CloudWatchアラームを通じて設定できます。基盤となるハードウェアの問題でステータスチェックが失敗した場合、アラームアクションによりインスタンスが同じ属性（IP等）を保ったまま復旧されます。"
+    },
+    {
+      "id": "saa-036",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "Amazon S3から大容量のデータを読み込むEC2インスタンスがあります。EC2とS3間のスループットを最大化するために、アプリケーションレベルで実装すべきベストプラクティスはどれですか？",
+      "options": [
+        "TCP Keep-Alive を無効にする",
+        "複数のプレフィックスを使用してS3へのリクエストを並列化する",
+        "リクエストごとにS3のVPCエンドポイントを新しく作成する",
+        "すべてのファイルを1つの巨大なZIPアーカイブにまとめる"
+      ],
+      "answerIndex": 1,
+      "explanation": "S3はプレフィックス（バケット内の論理的なフォルダパス）ごとに非常に高いリクエストレートをサポートします。並列リクエスト（マルチスレッドなど）を使用して同時に複数のオブジェクトを取得することで、スループットを最大化できます。"
+    },
+    {
+      "id": "saa-037",
+      "category": "secure-arch",
+      "difficulty": 2,
+      "question": "WebサーバーのEC2インスタンスがパブリックサブネットに配置されています。インターネット上のすべてのIPからのHTTP (ポート80) トラフィックは許可しつつ、特定の企業IPからのみSSH (ポート22) を許可するには、どのネットワークセキュリティ機能を使用すべきですか？",
+      "options": [
+        "ネットワークACL (NACL)",
+        "セキュリティグループ",
+        "AWS WAF",
+        "ルートテーブル"
+      ],
+      "answerIndex": 1,
+      "explanation": "セキュリティグループはインスタンスレベルで動作するステートフルなファイアウォールです。ポート80を `0.0.0.0/0` に対して許可し、ポート22を特定のIPアドレス (例 `203.0.113.5/32`) に対して許可するルールを設定できます。"
+    },
+    {
+      "id": "saa-038",
+      "category": "cost-optimized-arch",
+      "difficulty": 3,
+      "question": "複数のAWSアカウントでリザーブドインスタンス (RI) を購入しています。あるアカウントで購入したRIが未使用の場合、他のアカウントのEC2インスタンスの使用量にその割引を適用するにはどうすればよいですか？",
+      "options": [
+        "アカウント間でRIを直接譲渡するAPIを呼び出す",
+        "AWS Organizationsで一括請求 (Consolidated Billing) とRIの共有を有効にする",
+        "AWS License Managerを使用してライセンスとして共有する",
+        "AWS Cost Explorerでコスト配分タグを設定する"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS Organizationsの一括請求を使用すると、デフォルトでアカウント間でRI（およびSavings Plans）の割引が共有されます。あるアカウントで未使用のRIキャパシティは、組織内の別のアカウントの一致するインスタンス使用量に自動的に適用され、コストを最適化します。"
+    },
+    {
+      "id": "saa-039",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "グローバルに展開するアプリケーションのデータベースとしてAmazon Auroraを使用しています。リージョンレベルの障害が発生した場合でも、データへの読み書きを数秒の遅延で継続できるようにする機能はどれですか？",
+      "options": [
+        "Aurora マルチAZ配置",
+        "Aurora Serverless v2",
+        "Aurora Global Database",
+        "RDS リードレプリカの昇格"
+      ],
+      "answerIndex": 2,
+      "explanation": "Aurora Global Database は、1つのプライマリリージョンと最大5つのセカンダリリージョンにまたがって機能します。ストレージベースのレプリケーションにより、リージョン間のレイテンシーは通常1秒未満であり、災害時にはセカンダリリージョンを迅速にプライマリに昇格できます。"
+    },
+    {
+      "id": "saa-040",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "大量の書き込み要求が予測不可能なスパイクとして発生するアプリケーションがあります。データベースが書き込み要求でオーバーロードするのを防ぎ、処理を平滑化するためのアーキテクチャパターンはどれですか？",
+      "options": [
+        "API GatewayとLambdaの間にAmazon ElastiCacheを配置する",
+        "Webサーバーとデータベースの間にAmazon SQSキューを配置してメッセージをバッファリングする",
+        "データベースのAuto Scalingを無効にし、最大インスタンスサイズをプロビジョニングする",
+        "Route 53を使用してトラフィックを複数のデータベースに分散する"
+      ],
+      "answerIndex": 1,
+      "explanation": "Amazon SQSをワーカープロセス（データベースへ書き込むコンポーネント）の前に配置することで、トラフィックのスパイクをキューで吸収（バッファリング）し、データベースへの書き込み負荷を一定に保つ（平滑化する）ことができます。"
+    },
+    {
+      "id": "saa-041",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "VPC内のEC2インスタンスからAmazon S3にアクセスする必要がありますが、トラフィックをパブリックインターネット経由でルーティングしたくありません。最もセキュアな方法はどれですか？",
+      "options": [
+        "S3のVPCゲートウェイエンドポイントを作成し、ルートテーブルを更新する",
+        "NATゲートウェイをプライベートサブネットに設定する",
+        "インターネットゲートウェイを削除し、仮想プライベートゲートウェイをアタッチする",
+        "AWS Direct Connectを使用してS3に直接接続する"
+      ],
+      "answerIndex": 0,
+      "explanation": "Amazon S3用のVPCゲートウェイエンドポイントを使用すると、VPC内のリソースはインターネットゲートウェイやNATゲートウェイなしで（AWSネットワーク内を通って）S3に安全にアクセスできます。"
+    },
+    {
+      "id": "saa-042",
+      "category": "cost-optimized-arch",
+      "difficulty": 2,
+      "question": "EC2インスタンスにアタッチされているAmazon EBSボリュームのうち、現在インスタンスからデタッチされ（マウントされておらず）、長期間使用されていないものを特定してコストを削減したい場合、どのツールが最も適していますか？",
+      "options": [
+        "AWS CloudTrail",
+        "Amazon CloudWatch Logs",
+        "AWS Trusted Advisor",
+        "AWS Systems Manager"
+      ],
+      "answerIndex": 2,
+      "explanation": "AWS Trusted Advisor は「コスト最適化」のカテゴリ内で、使用頻度の低いEBSボリュームや、アタッチされていないEBSボリュームを自動的にチェックして推奨事項として提示します。"
+    },
+    {
+      "id": "saa-043",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "Auto Scalingグループを使用してウェブ層のEC2インスタンスを管理しています。障害が発生したインスタンス (Unhealthy) が検知された場合、Auto Scalingはどのようなアクションを実行しますか？",
+      "options": [
+        "インスタンスを再起動 (Reboot) し、回復するまで待つ",
+        "異常なインスタンスを終了 (Terminate) し、設定された希望する容量を維持するために新しいインスタンスを起動する",
+        "管理者にEメールで承認を要求し、承認後にインスタンスを交換する",
+        "何もせず、異常なインスタンスへのトラフィックをCloudFrontでブロックする"
+      ],
+      "answerIndex": 1,
+      "explanation": "Auto Scalingグループは、EC2ステータスチェックやELBヘルスチェックによってインスタンスが異常 (Unhealthy) であると判断した場合、そのインスタンスを自動的に終了(Terminate)し、希望する容量 (Desired Capacity) に合わせて新しいインスタンスを自動起動して置き換えます。"
+    },
+    {
+      "id": "saa-044",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "Amazon DynamoDBからミリ秒以下のレイテンシーで高い読み取りスループットを要求するアプリケーションがあります。データベースの負荷を軽減し、パフォーマンスを向上させるフルマネージドのインメモリキャッシュサービスはどれですか？",
+      "options": [
+        "Amazon ElastiCache for Memcached",
+        "Amazon DynamoDB Accelerator (DAX)",
+        "Amazon RDS Proxy",
+        "Amazon CloudFront"
+      ],
+      "answerIndex": 1,
+      "explanation": "Amazon DynamoDB Accelerator (DAX) は、DynamoDB専用のフルマネージド型で高可用性を備えたインメモリキャッシュであり、1秒間に数百万件のリクエストに対してもマイクロ秒（ミリ秒以下）のレイテンシーで読み取り処理を提供します。"
+    },
+    {
+      "id": "saa-045",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "AWSアカウント内で、データベースのパスワードやサードパーティAPIのキーなどの機密情報を安全に保存し、定期的に自動ローテーション（更新）できるサービスはどれですか？",
+      "options": [
+        "AWS Systems Manager Parameter Store",
+        "AWS Secrets Manager",
+        "AWS Key Management Service (KMS)",
+        "Amazon S3 オブジェクトロック"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS Secrets Manager は、データベース認証情報、API キーなどのシークレットを安全に保存し、組み込みの統合機能を通じて Amazon RDS などに対するパスワードの自動ローテーションを簡単にスケジュールおよび実行できます。（Parameter Store は自動ローテーション機能を持っていません）"
+    },
+    {
+      "id": "saa-046",
+      "category": "cost-optimized-arch",
+      "difficulty": 3,
+      "question": "サーバーレスアプリケーションを構築しており、コンテナ化されたマイクロサービスを実行したいと考えています。インフラストラクチャを一切管理せず、コンテナの実行時間に対してのみ料金を支払うコンピューティングエンジンはどれですか？",
+      "options": [
+        "Amazon EC2 Auto Scaling",
+        "AWS Elastic Beanstalk",
+        "AWS Fargate",
+        "Amazon Elastic Kubernetes Service (EKS) オンEC2"
+      ],
+      "answerIndex": 2,
+      "explanation": "AWS Fargate は Amazon ECS および EKS で動作するサーバーレスのコンテナコンピューティングエンジンです。サーバーのプロビジョニングや管理が不要で、コンテナが使用したvCPUとメモリのリソース分だけが課金されます。"
+    },
+    {
+      "id": "saa-047",
+      "category": "resilient-arch",
+      "difficulty": 2,
+      "question": "複数のWebサーバーインスタンス間でセッション状態を同期させる必要があります。この用途に適していないAWSサービスはどれですか？",
+      "options": [
+        "Amazon ElastiCache for Redis",
+        "Amazon DynamoDB",
+        "Amazon EC2 Instance Store (インスタンスストア)",
+        "Amazon RDS"
+      ],
+      "answerIndex": 2,
+      "explanation": "EC2インスタンスストアは、ホストコンピュータに物理的にアタッチされている一時的なブロックストレージです。インスタンスを停止・終了するとデータが消えるため、永続的なセッションデータや複数インスタンス間のデータ共有には使用できません。"
+    },
+    {
+      "id": "saa-048",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "Amazon RDS for MySQLデータベースで、複雑なレポート生成クエリが実行されるたびに、通常のトランザクション処理（OLTP）のパフォーマンスが低下しています。OLTPのパフォーマンスに影響を与えずにレポートクエリを実行する最適な方法はどれですか？",
+      "options": [
+        "RDSインスタンスクラスをより大きなサイズに変更する",
+        "RDS リードレプリカを作成し、レポート生成クエリをそちらにルーティングする",
+        "RDSマルチAZを有効にし、スタンバイインスタンスでクエリを実行する",
+        "すべてのデータベーステーブルにインデックスを追加する"
+      ],
+      "answerIndex": 1,
+      "explanation": "リードレプリカを作成することで、読み取り（レポート生成）ワークロードをマスターDBから分離（オフロード）でき、本番環境のOLTPパフォーマンスを確保できます。（マルチAZのスタンバイはフェイルオーバー専用であり、読み取りアクセスはできません）。"
+    },
+    {
+      "id": "saa-049",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "Amazon S3バケットへのアクセスログを有効にしました。ログを保存するためのターゲットバケットに対するベストプラクティスはどれですか？",
+      "options": [
+        "アクセス元と同じバケットをターゲットバケットとして指定する",
+        "ターゲットバケットを完全にパブリック公開にする",
+        "ターゲットバケットを別の専用バケットにし、ログアクセス権限を厳密に管理する",
+        "ターゲットバケットでバージョニングを無効にする"
+      ],
+      "answerIndex": 2,
+      "explanation": "S3のサーバーアクセスログを保存する場合、ログループ（ログの書き込みが新たなログを生成する無限ループ）を防ぐために、ログの保存先はソースとは異なる専用のバケットにすべきです。また、ログデータには機密情報が含まれる可能性があるため厳密なアクセス制御が必要です。"
+    },
+    {
+      "id": "saa-050",
+      "category": "cost-optimized-arch",
+      "difficulty": 3,
+      "question": "社内の開発チームが、AWSリソースを自由に起動できる環境を提供しつつ、特定のインスタンスタイプ（例：t3.microのみ）しか起動できないように制御し、かつ自動的にコスト配分タグが付与されるようにする最適なサービスはどれですか？",
+      "options": [
+        "AWS Service Catalog",
+        "AWS IAM",
+        "AWS Organizations SCP",
+        "AWS CloudFormation"
+      ],
+      "answerIndex": 0,
+      "explanation": "AWS Service Catalogを使用すると、企業が承認したAWSサービスやアーキテクチャ（ITサービス）のカタログを作成して管理できます。これにより、起動できるインスタンスタイプなどの制約や、必須タグの適用を強制しながら、開発者にセルフサービスプロビジョニングを提供できます。"
+    },
+    {
+      "id": "saa-051",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "AWS上でオンプレミスと同じIPアドレス空間を維持しつつ、AWSリソースをオンプレミスネットワークの延長として機能させたい場合、最適なAWSサービスはどれですか？",
+      "options": [
+        "AWS Outposts",
+        "AWS Local Zones",
+        "AWS Wavelength",
+        "AWS Transit Gateway"
+      ],
+      "answerIndex": 0,
+      "explanation": "AWS Outposts は、ネイティブのAWSサービス、インフラストラクチャ、および運用モデルを、ほぼすべてのデータセンター、コロケーションスペース、またはオンプレミス施設に提供するフルマネージドサービスです。"
+    },
+    {
+      "id": "saa-052",
+      "category": "secure-arch",
+      "difficulty": 2,
+      "question": "Amazon S3バケット内の特定のオブジェクトへのアクセスを、一時的に許可するための最も安全な方法はどれですか？",
+      "options": [
+        "バケットポリシーを一時的に「パブリック読み取り」に変更する",
+        "事前に署名されたURL (Pre-signed URL) を生成して共有する",
+        "IAMユーザーを作成し、アクセスキーを共有する",
+        "S3の静的ウェブサイトホスティングを有効にする"
+      ],
+      "answerIndex": 1,
+      "explanation": "事前に署名されたURL (Pre-signed URL) を使用すると、URLを生成したユーザーの権限を使用して、一定時間のみ有効なアクセス権を他者に付与できます。IAM認証情報を持たないユーザーに一時的にオブジェクトを共有するのに最適です。"
+    },
+    {
+      "id": "saa-053",
+      "category": "cost-optimized-arch",
+      "difficulty": 3,
+      "question": "データウェアハウスのクエリ履歴やアクセスログなどの膨大なデータを、標準SQLを使ってS3バケットから直接クエリしたいと考えています。最もコスト効率が高く、インフラストラクチャの管理が不要なサーバーレスサービスはどれですか？",
+      "options": [
+        "Amazon EMR",
+        "Amazon Redshift Spectrum",
+        "Amazon Athena",
+        "AWS Glue"
+      ],
+      "answerIndex": 2,
+      "explanation": "Amazon Athenaは、標準SQLを使用してAmazon S3内のデータを直接分析できるインタラクティブなクエリサービスです。サーバーレスであるためインフラの管理は不要で、実行したクエリによってスキャンされたデータ量に対してのみ課金されます。"
+    },
+    {
+      "id": "saa-054",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "Amazon EC2でホストされているデータベースのバックアップを定期的に取得しています。EBSスナップショットの整合性を確保し、OSやアプリケーションレベルのキャッシュデータを含めて完全に静止点を作るための最適なプロセスはどれですか？",
+      "options": [
+        "EBSスナップショットを取得する前に、ファイルシステムのI/Oを一時停止（フリーズ）させる",
+        "スナップショット中はEC2インスタンスを自動的にTerminateし、後で起動する",
+        "AWS Backupを使用して日次バックアップをスケジュールする",
+        "EBSボリュームをデタッチしてからスナップショットを取得する"
+      ],
+      "answerIndex": 0,
+      "explanation": "アプリケーションの整合性のあるスナップショットを取得するには、スナップショット取得前にデータベースのバッファをフラッシュし、ファイルシステムのI/Oを一時停止（フリーズ）させて静止点を作る必要があります（VSSサポートやプレ/ポストスクリプトを使用）。"
+    },
+    {
+      "id": "saa-055",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "1秒間に数万件の小さなJSONファイルがAmazon S3にアップロードされます。S3のパフォーマンスを最大化し、503 Slow Downエラーを回避するためのベストプラクティスはどれですか？",
+      "options": [
+        "S3バケットへの同時書き込み数を制限する",
+        "オブジェクトのキー名（プレフィックス）にハッシュなどを使用してランダム性を加える",
+        "すべてのファイルを1つのZIPファイルに圧縮してからアップロードする",
+        "S3 Transfer Accelerationを無効にする"
+      ],
+      "answerIndex": 1,
+      "explanation": "S3はプレフィックス（フォルダ構造のようなもの）ごとにリクエストのスケールを行います。キー名がシーケンシャル（日付順など）だと特定のパーティションに負荷が集中するため、キー名にハッシュを使用してランダム性を加えることで負荷を分散させ、パフォーマンスを最大化できます。"
+    },
+    {
+      "id": "saa-056",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "会社のポリシーにより、Amazon S3にアップロードされるすべてのデータは、オンプレミスのHSM（ハードウェアセキュリティモジュール）で生成および管理されたキーを使用して暗号化する必要があります。この要件を満たすS3の暗号化方式はどれですか？",
+      "options": [
+        "SSE-S3 (S3マネージドキー)",
+        "SSE-KMS (AWS KMSマネージドキー)",
+        "SSE-C (顧客提供キー)",
+        "クライアント側の暗号化 (Client-side encryption)"
+      ],
+      "answerIndex": 2,
+      "explanation": "SSE-C (Server-Side Encryption with Customer-Provided Keys) を使用すると、お客様が独自の暗号化キーを提供し、AWS S3がそれを使用してオブジェクトを暗号化/復号します。AWSはキーを保存しないため、厳密なキー管理要件を満たせます。"
+    },
+    {
+      "id": "saa-057",
+      "category": "cost-optimized-arch",
+      "difficulty": 2,
+      "question": "AWS Lambda関数が頻繁に呼び出されていますが、一部の関数は実行に時間がかかりすぎています。Lambdaの実行時間とコストを最適化するために調整できるパラメータはどれですか？",
+      "options": [
+        "割り当てるメモリ量",
+        "基盤となるEC2インスタンスタイプ",
+        "同時実行数の上限",
+        "使用するOSの種類"
+      ],
+      "answerIndex": 0,
+      "explanation": "Lambda関数に割り当てる「メモリ量」を増やすと、それに比例して「CPU能力」と「ネットワーク帯域幅」も増加します。メモリを増やすことで実行時間が短縮され、結果的にトータルコストが下がる場合があります（Power Tuning）。"
+    },
+    {
+      "id": "saa-058",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "Route 53を使用して、メインのALBが応答しなくなった場合に、自動的に静的なメンテナンスページ（Amazon S3でホスト）にユーザーをリダイレクトするルーティングポリシーはどれですか？",
+      "options": [
+        "マルチ値回答ルーティング",
+        "フェイルオーバールーティング",
+        "レイテンシールーティング",
+        "複数値ルーティング"
+      ],
+      "answerIndex": 1,
+      "explanation": "フェイルオーバールーティングポリシーは、アクティブ/パッシブのフェイルオーバーを構成するために使用します。プライマリリソース（ALB）のヘルスチェックが失敗した場合、Route 53は自動的にセカンダリリソース（S3のメンテナンスページ）にトラフィックをルーティングします。"
+    },
+    {
+      "id": "saa-059",
+      "category": "high-perf-arch",
+      "difficulty": 2,
+      "question": "オンプレミスからAWSへ毎日数テラバイトのデータを移行しています。インターネット接続の帯域幅がボトルネックになっており、移行が遅れています。データ移行を加速するための専用の物理デバイスを提供するAWSサービスはどれですか？",
+      "options": [
+        "AWS Direct Connect",
+        "AWS Storage Gateway",
+        "AWS Snowball Edge",
+        "AWS DataSync"
+      ],
+      "answerIndex": 2,
+      "explanation": "AWS Snowball Edge は、ネットワーク帯域幅が限られている環境で大容量のデータをAWSに移行するための、セキュアな物理的データ転送デバイスです。インターネットを経由せずに大容量データを物理的に輸送することで移行を加速します。"
+    },
+    {
+      "id": "saa-060",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "複数のAWSアカウントにまたがるセキュリティインシデントを一元的に管理・可視化し、AWSのベストプラクティスに基づいたセキュリティスコアを提示するサービスはどれですか？",
+      "options": [
+        "Amazon GuardDuty",
+        "AWS Security Hub",
+        "AWS Firewall Manager",
+        "AWS Config"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS Security Hub は、複数のAWSアカウントとリージョンにわたるセキュリティアラート（GuardDuty、Inspector、Macieなど）を一元的に集約、整理し、CIS AWS Foundations Benchmarkなどの標準に基づくコンプライアンスチェックを自動的に実行します。"
+    },
+    {
+      "id": "saa-061",
+      "category": "cost-optimized-arch",
+      "difficulty": 3,
+      "question": "Webサーバーのログデータ（数十TB）を長期間保存する要件があります。データへのアクセスはまれ（年に1〜2回）ですが、アクセスが必要になった場合は12時間以内に取り出せれば問題ありません。最もコスト効率の高いS3ストレージクラスはどれですか？",
+      "options": [
+        "S3 Standard",
+        "S3 Standard-IA",
+        "S3 Glacier Flexible Retrieval",
+        "S3 Glacier Deep Archive"
+      ],
+      "answerIndex": 3,
+      "explanation": "S3 Glacier Deep Archive は、アクセス頻度が非常に低く、取り出し時間が12〜48時間許容できるデータのための、最もコストの低いストレージクラスです。長期間のログ保存やコンプライアンスのためのアーカイブに最適です。"
+    },
+    {
+      "id": "saa-062",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "アプリケーションはAmazon SQS標準キューを使用してメッセージを処理しています。メッセージが重複して処理されることを防ぐため、アプリケーション側で「冪等性 (Idempotence)」を実装する必要があります。冪等性とは何ですか？",
+      "options": [
+        "メッセージが必ず順番通りに処理されること",
+        "メッセージが必ず1回だけ配信されること",
+        "同じメッセージが複数回処理されても、結果が1回処理された状態と同じになること",
+        "メッセージの処理が失敗した場合に再試行しないこと"
+      ],
+      "answerIndex": 2,
+      "explanation": "SQS標準キューは「少なくとも1回 (at-least-once)」の配信を保証するため、まれに重複してメッセージが配信されることがあります。そのため、アプリケーション側で同じ処理を複数回実行しても結果が変わらない性質（冪等性）を持たせることがレジリエンスのベストプラクティスです。"
+    },
+    {
+      "id": "saa-063",
+      "category": "high-perf-arch",
+      "difficulty": 2,
+      "question": "ユーザーからアップロードされた動画を、スマートフォン用やPC用に異なる解像度やフォーマットに自動的に変換（トランスコード）するフルマネージドサービスはどれですか？",
+      "options": [
+        "Amazon Elastic Transcoder / AWS Elemental MediaConvert",
+        "Amazon Kinesis Video Streams",
+        "Amazon Rekognition",
+        "AWS AppSync"
+      ],
+      "answerIndex": 0,
+      "explanation": "AWS Elemental MediaConvert (旧 Elastic Transcoder) は、ビデオファイルを様々なデバイス向けに変換（トランスコード）するためのファイルベースの動画処理サービスです。"
+    },
+    {
+      "id": "saa-064",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "VPC内にNATゲートウェイを配置する際、NATゲートウェイに割り当てる必要があり、インスタンスがインターネットと通信する際の送信元IPとなるものはどれですか？",
+      "options": [
+        "Elastic IP アドレス (EIP)",
+        "プライベートIPアドレス",
+        "MACアドレス",
+        "AWS KMSキー"
+      ],
+      "answerIndex": 0,
+      "explanation": "パブリックサブネットに配置するパブリックNATゲートウェイには、パブリックの静的IPv4アドレスである Elastic IP アドレス (EIP) を割り当てる必要があります。プライベートサブネット内のインスタンスは、このEIPを使用してインターネットへ通信します。"
+    },
+    {
+      "id": "saa-065",
+      "category": "cost-optimized-arch",
+      "difficulty": 3,
+      "question": "AWS 上で動作する Microsoft SQL Server などの商用ライセンスソフトウェアを、自社で保有している既存のライセンス (BYOL) を使用して実行したい場合、ライセンスの追跡と管理を自動化するサービスはどれですか？",
+      "options": [
+        "AWS IAM",
+        "AWS Artifact",
+        "AWS License Manager",
+        "AWS Systems Manager Inventory"
+      ],
+      "answerIndex": 2,
+      "explanation": "AWS License Manager を使用すると、ソフトウェアベンダーのライセンス要件（ライセンスの持ち込み = BYOL）に基づいたルールを定義し、AWS およびオンプレミス環境全体でのライセンスの割り当てと使用状況を簡単に追跡・管理・制限できます。"
+    },
+    {
+      "id": "saa-066",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "Amazon RDS でマルチAZ配置を有効にしました。プライマリインスタンスに障害が発生してフェイルオーバーが開始されたとき、アプリケーションが接続を復旧するために必要なアクションは何ですか？",
+      "options": [
+        "アプリケーション内の接続IPアドレスをスタンバイのIPに変更する",
+        "AWS CLIコマンドを実行してフェイルオーバーを承認する",
+        "何もする必要はない。RDSのエンドポイントDNSが自動的にスタンバイに向く",
+        "Route 53のフェイルオーバールーティングを手動で更新する"
+      ],
+      "answerIndex": 2,
+      "explanation": "マルチAZフェイルオーバーが発生すると、AWSは自動的にデータベースのエンドポイントのDNSレコードを更新し、スタンバイインスタンスのIPアドレスを指すようにします。アプリケーション側はエンドポイント名を使い続けるだけで、DNSキャッシュの有効期限切れ後に自動的に新しいインスタンスに接続されます。"
+    },
+    {
+      "id": "saa-067",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "オンプレミスからAWSクラウドへのファイルデータ移行において、ネットワーク経由でデータを継続的に同期し、SMBやNFSプロトコルをサポートするオンラインデータ転送サービスはどれですか？",
+      "options": [
+        "AWS Snowball",
+        "AWS DataSync",
+        "Amazon Kinesis Data Firehose",
+        "AWS Transfer Family"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS DataSync は、オンプレミスのストレージシステム（NFS、SMBなど）と AWS ストレージサービス（S3、EFS、FSxなど）間で、大容量のデータを安全、高速、かつ継続的に転送・同期するためのオンラインデータ転送サービスです。"
+    },
+    {
+      "id": "saa-068",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "IAM ポリシーで、特定の条件が満たされた場合にのみアクセスを許可したいと考えています。例えば「ユーザーがMFA（多要素認証）を使用してサインインしている場合のみ」を強制するポリシー要素はどれですか？",
+      "options": [
+        "Action",
+        "Resource",
+        "Condition",
+        "Principal"
+      ],
+      "answerIndex": 2,
+      "explanation": "IAMポリシーの `Condition`（条件）要素を使用すると、リクエストの送信元IP、MFAの有無（aws:MultiFactorAuthPresent）、日付と時刻など、ステートメントが有効になるための具体的な条件を指定できます。"
+    },
+    {
+      "id": "saa-069",
+      "category": "cost-optimized-arch",
+      "difficulty": 2,
+      "question": "Amazon EC2のネットワーク料金において、データ転送コストが最も高くなるのはどのパターンの通信ですか？",
+      "options": [
+        "同じVPC内の同じAZ内のEC2インスタンス間の通信",
+        "同じVPC内の異なるAZにあるEC2インスタンス間の通信",
+        "EC2インスタンスからインターネットへのアウトバウンドデータ転送",
+        "インターネットからEC2インスタンスへのインバウンドデータ転送"
+      ],
+      "answerIndex": 2,
+      "explanation": "AWSのネットワーク料金では、インターネットからAWSへのデータ転送（インバウンド）は基本的に無料です。一方、AWSからインターネットへのデータ転送（アウトバウンド）は、AZ間やリージョン間のデータ転送よりもはるかに高い料金が発生します。"
+    },
+    {
+      "id": "saa-070",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "Amazon SQSキューを使用して注文処理システムを構築しています。処理の順序（FIFO）を保証し、かつメッセージが重複して処理されるのを完全に防ぐことができるキューのタイプはどれですか？",
+      "options": [
+        "SQS 標準キュー",
+        "SQS FIFO キュー",
+        "SNS トピック",
+        "Amazon Kinesis Data Streams"
+      ],
+      "answerIndex": 1,
+      "explanation": "Amazon SQS FIFO (First-In-First-Out) キューは、メッセージが送信された厳密な順序で処理され、かつ「正確に1回 (Exactly-Once)」処理されることを保証するキュータイプです。順序が重要な金融取引や注文処理などに適しています。"
+    },
+    {
+      "id": "saa-071",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "Amazon Route 53で、ユーザーを特定の地理的場所（国や州）に基づいて、最も近いリージョンまたは特定のリージョンのリソースにルーティングするポリシーはどれですか？",
+      "options": [
+        "レイテンシールーティング",
+        "ジオロケーションルーティング",
+        "フェイルオーバールーティング",
+        "IPベースのルーティング"
+      ],
+      "answerIndex": 1,
+      "explanation": "ジオロケーション (Geolocation) ルーティングポリシーは、DNSクエリの送信元（ユーザーの地理的な位置：大陸、国、米国なら州）に基づいてトラフィックをルーティングします。コンテンツのローカライズやライセンスの制限等に利用されます。"
+    },
+    {
+      "id": "saa-072",
+      "category": "secure-arch",
+      "difficulty": 3,
+      "question": "VPC間で通信を行うためにVPCピアリングを設定しました。ピアリング接続を介して通信を成功させるためには、ルートテーブルの更新に加えて何が必要ですか？",
+      "options": [
+        "AWS Direct Connect を有効にする",
+        "インターネットゲートウェイを両方のVPCにアタッチする",
+        "通信するリソースのセキュリティグループとネットワークACLで、相手VPCのIP範囲を許可する",
+        "VPCエンドポイントを作成する"
+      ],
+      "answerIndex": 2,
+      "explanation": "VPCピアリングはネットワーク間のルーティングを可能にするだけです。実際に通信を通すためには、関連するEC2インスタンスなどのセキュリティグループ（および必要に応じてNACL）のインバウンド/アウトバウンドルールで、相手側のVPC CIDRとのトラフィックを許可する必要があります。"
+    },
+    {
+      "id": "saa-073",
+      "category": "cost-optimized-arch",
+      "difficulty": 3,
+      "question": "AWSアカウントのリソース（EC2、RDSなど）が、組織のタグ付けポリシーに準拠しているか（必須タグが付与されているか）を継続的に評価し、非準拠のリソースを自動的に修復することができるサービスはどれですか？",
+      "options": [
+        "AWS Config",
+        "AWS CloudTrail",
+        "AWS Resource Groups",
+        "Amazon CloudWatch"
+      ],
+      "answerIndex": 0,
+      "explanation": "AWS Config は、AWSリソースの設定を継続的にモニタリングし、定義したルール（例：特定のタグが存在するか）に基づいてコンプライアンスを評価します。さらに、AWS Systems Manager (SSM) オートメーションドキュメントと連携して非準拠リソースを自動修復することも可能です。"
+    },
+    {
+      "id": "saa-074",
+      "category": "resilient-arch",
+      "difficulty": 3,
+      "question": "サーバーレスアプリケーションで、AWS Lambda、Amazon SNS、Amazon DynamoDBなどの複数のサービスを連携させた複雑なワークフロー（エラーの再試行や分岐を含む）を、視覚的に調整・管理するサービスはどれですか？",
+      "options": [
+        "AWS Step Functions",
+        "AWS CodePipeline",
+        "Amazon EventBridge",
+        "AWS X-Ray"
+      ],
+      "answerIndex": 0,
+      "explanation": "AWS Step Functions は、複数のAWSサービスをステートマシン（状態遷移）として連携させ、サーバーレスワークフローを視覚的に構築できるオーケストレーションサービスです。エラーハンドリングやリトライ、並行処理などを簡潔に実装できます。"
+    },
+    {
+      "id": "saa-075",
+      "category": "high-perf-arch",
+      "difficulty": 3,
+      "question": "AWS Lambda関数がVPC内のプライベートAmazon RDSデータベースにアクセスするように設定されています。Lambda関数の同時実行数が急増した場合、データベース接続プールの枯渇を防ぐためのベストプラクティスはどれですか？",
+      "options": [
+        "Lambda関数のメモリを増やす",
+        "RDSインスタンスクラスをスケールアップする",
+        "Amazon RDS Proxyを使用する",
+        "Lambda関数のタイムアウトを長くする"
+      ],
+      "answerIndex": 2,
+      "explanation": "Amazon RDS Proxy は、フルマネージドのデータベースプロキシです。多数のLambda関数からの接続要求をプールし、背後のRDSへは少数の効率的な接続を維持することで、RDSの接続上限の枯渇を防ぎ、フェイルオーバー時間も短縮します。"
     }
   ]
 }

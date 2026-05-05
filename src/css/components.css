@@ -39,20 +39,60 @@
   gap: var(--spacing-md);
 }
 
-.course-btn {
+.course-card {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: var(--spacing-md);
   text-align: left;
   width: 100%;
   color: var(--text-primary);
 }
 
-.course-btn:hover, .course-btn:focus {
+.course-card:hover {
   transform: translateY(-2px);
   border-color: var(--border-focus);
   box-shadow: 0 8px 32px rgba(255, 153, 0, 0.1);
-  outline: none;
+}
+
+.course-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.course-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.btn-primary, .btn-secondary {
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.btn-primary {
+  background: var(--aws-orange);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #e68a00;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .course-icon {
@@ -81,12 +121,17 @@
 }
 
 /* Progress Bar */
+.progress-container {
+  width: 100%;
+}
+
 .progress-bar {
   width: 100%;
   height: 6px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 3px;
   overflow: hidden;
+  margin-top: var(--spacing-xs);
 }
 
 .progress-fill {
@@ -94,4 +139,60 @@
   background: linear-gradient(90deg, var(--aws-orange), #ffb84d);
   border-radius: 3px;
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Category Drill-down UI */
+.expand-icon {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: transform 0.3s ease;
+}
+
+.course-card.expanded .expand-icon {
+  transform: rotate(180deg);
+}
+
+.categories-container {
+  margin-top: var(--spacing-md);
+  border-top: 1px solid var(--border-light);
+  padding-top: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.category-item {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid transparent;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+}
+
+.category-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.category-stats-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.category-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.category-actions .btn-primary,
+.category-actions .btn-secondary {
+  font-size: 0.85rem;
+  padding: 6px 12px;
 }

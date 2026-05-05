@@ -1,9 +1,17 @@
 {
   "courseId": "clf-c02",
   "title": "AWS Certified Cloud Practitioner",
+  "categories": [
+    { "id": "cloud-concepts", "name": "クラウドのコンセプト" },
+    { "id": "security", "name": "セキュリティとコンプライアンス" },
+    { "id": "technology", "name": "テクノロジー" },
+    { "id": "billing", "name": "請求と料金" }
+  ],
   "questions": [
     {
       "id": "clf-001",
+      "category": "cloud-concepts",
+      "difficulty": 1,
       "question": "AWSクラウドの俊敏性 (Agility) を表す最も適切な説明はどれですか？",
       "options": [
         "オンプレミスデータセンターの物理的セキュリティを強化すること",
@@ -16,6 +24,8 @@
     },
     {
       "id": "clf-002",
+      "category": "security",
+      "difficulty": 1,
       "question": "AWSの責任共有モデルにおいて、お客様（ユーザー）の責任となるのはどれですか？",
       "options": [
         "データセンターの物理的なセキュリティ",
@@ -28,6 +38,8 @@
     },
     {
       "id": "clf-003",
+      "category": "technology",
+      "difficulty": 1,
       "question": "複数のアベイラビリティーゾーン (AZ) にリソースをデプロイする主な目的は何ですか？",
       "options": [
         "アプリケーションの高可用性と耐障害性を向上させるため",
@@ -37,6 +49,524 @@
       ],
       "answerIndex": 0,
       "explanation": "マルチAZ配置は、1つのデータセンター群（AZ）で障害が発生しても、別のAZでアプリケーションを継続できるように設計されており、高可用性と耐障害性を高めます。"
+    },
+    {
+      "id": "clf-004",
+      "category": "billing",
+      "difficulty": 1,
+      "question": "AWS利用料金のモデルとして最も正確な説明はどれですか？",
+      "options": [
+        "年間契約を結び、前払いする必要がある",
+        "使用した分だけ支払う従量課金制である",
+        "すべてのサービスが定額月額料金で利用できる",
+        "無料利用枠のサービスのみが利用可能である"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWSの基本的な料金モデルは従量課金制（pay-as-you-go）であり、実際に使用したリソースの分だけ料金が発生します。初期費用は不要です。"
+    },
+    {
+      "id": "clf-005",
+      "category": "cloud-concepts",
+      "difficulty": 2,
+      "question": "AWSの Well-Architected フレームワークの6つの柱に含まれないものはどれですか？",
+      "options": [
+        "運用上の優秀性 (Operational Excellence)",
+        "コスト最適化 (Cost Optimization)",
+        "市場投入速度 (Time to Market)",
+        "持続可能性 (Sustainability)"
+      ],
+      "answerIndex": 2,
+      "explanation": "Well-Architected フレームワークの6つの柱は、運用上の優秀性、セキュリティ、信頼性、パフォーマンス効率、コスト最適化、持続可能性です。「市場投入速度」は柱には含まれません。"
+    },
+    {
+      "id": "clf-006",
+      "category": "security",
+      "difficulty": 2,
+      "question": "AWSアカウントのルートユーザーのセキュリティを強化するためのベストプラクティスはどれですか？",
+      "options": [
+        "ルートユーザーの認証情報をチームメンバーと共有する",
+        "ルートユーザーに対して多要素認証 (MFA) を有効にする",
+        "日常的な作業をすべてルートユーザーで行う",
+        "ルートユーザーのアクセスキーを作成して使用する"
+      ],
+      "answerIndex": 1,
+      "explanation": "ルートユーザーはアカウントの全権限を持つため、MFAを有効にし、日常業務にはIAMユーザーまたはIAM Identity Centerのユーザーを使用することがベストプラクティスです。"
+    },
+    {
+      "id": "clf-007",
+      "category": "technology",
+      "difficulty": 2,
+      "question": "Amazon CloudFrontの主な目的は何ですか？",
+      "options": [
+        "仮想プライベートネットワークを構築する",
+        "エッジロケーションを使用してコンテンツを低レイテンシーで配信する",
+        "コンテナアプリケーションを実行する",
+        "データベースのクエリパフォーマンスを最適化する"
+      ],
+      "answerIndex": 1,
+      "explanation": "Amazon CloudFrontは、世界中のエッジロケーション（Points of Presence）を利用して、静的・動的コンテンツ（HTML、CSS、JavaScript、画像、動画など）をユーザーに近い場所からキャッシュ配信するCDN（Content Delivery Network）サービスです。"
+    },
+    {
+      "id": "clf-008",
+      "category": "billing",
+      "difficulty": 2,
+      "question": "AWS Organizations を使用する主な利点はどれですか？",
+      "options": [
+        "EC2インスタンスの起動時間を短縮する",
+        "複数のAWSアカウントの一括請求（コンソリデーテッドビリング）と一元管理が可能になる",
+        "各AWSサービスのレイテンシーを削減する",
+        "AWS Lambdaの同時実行数上限を引き上げる"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS Organizationsは、複数のAWSアカウントをまとめて管理する機能を提供します。一括請求による使用量の統合（ボリュームディスカウント）や、サービスコントロールポリシー (SCP) によるアカウントへのガバナンスを実現できます。"
+    },
+    {
+      "id": "clf-009",
+      "category": "cloud-concepts",
+      "difficulty": 1,
+      "question": "オンプレミス環境からAWSへの移行において、ハードウェアの調達から発生する初期の資本的支出 (CapEx) を、使った分だけ支払う変動費に置き換えることができるという利点を何と呼びますか？",
+      "options": [
+        "弾力性 (Elasticity)",
+        "資本的支出の変動費化 (Trade capital expense for variable expense)",
+        "規模の経済 (Economies of scale)",
+        "グローバルな展開 (Go global in minutes)"
+      ],
+      "answerIndex": 1,
+      "explanation": "クラウドの利点の1つは、データセンターや物理サーバーに事前投資（CapEx）する代わりに、コンピューティングリソースを消費した分だけ支払う（変動費）ことができる点です。"
+    },
+    {
+      "id": "clf-010",
+      "category": "technology",
+      "difficulty": 1,
+      "question": "サーバーのプロビジョニングや管理を行わずにコードを実行できるサーバーレスコンピューティングサービスはどれですか？",
+      "options": [
+        "Amazon EC2",
+        "AWS Lambda",
+        "Amazon S3",
+        "Amazon RDS"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS Lambdaはサーバーレスコンピューティングサービスであり、サーバーをプロビジョニングまたは管理することなくコードを実行できます。"
+    },
+    {
+      "id": "clf-011",
+      "category": "security",
+      "difficulty": 2,
+      "question": "AWS環境に対するDDoS（分散型サービス拒否）攻撃からアプリケーションを保護するマネージド型サービスはどれですか？",
+      "options": [
+        "AWS WAF",
+        "AWS Shield",
+        "Amazon Macie",
+        "AWS KMS"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS Shieldは、AWSで実行されるアプリケーションを分散型サービス拒否 (DDoS) 攻撃から保護するマネージド型のDDoS保護サービスです。StandardとAdvancedの2つの階層があります。"
+    },
+    {
+      "id": "clf-012",
+      "category": "billing",
+      "difficulty": 2,
+      "question": "AWSのコストと使用量を可視化し、予算の超過を事前に通知するためのサービスはどれですか？",
+      "options": [
+        "AWS Cost Explorer",
+        "AWS Budgets",
+        "AWS Pricing Calculator",
+        "AWS Trusted Advisor"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS Budgetsを使用すると、カスタム予算を設定し、コストまたは使用量が予算額または予算量を超えた（あるいは超えると予測された）ときにアラートを受信できます。"
+    },
+    {
+      "id": "clf-013",
+      "category": "technology",
+      "difficulty": 2,
+      "question": "AWSリソースをコードとしてプロビジョニングおよび管理するために使用されるサービスはどれですか？",
+      "options": [
+        "AWS CloudFormation",
+        "AWS CloudTrail",
+        "Amazon CloudWatch",
+        "AWS Config"
+      ],
+      "answerIndex": 0,
+      "explanation": "AWS CloudFormationは、インフラストラクチャをコード (Infrastructure as Code, IaC) として扱い、テンプレートを使用してAWSリソースを自動的かつ安全にプロビジョニングするサービスです。"
+    },
+    {
+      "id": "clf-014",
+      "category": "cloud-concepts",
+      "difficulty": 2,
+      "question": "需要の変化に合わせて、必要なときにリソースを増やし、不要なときに減らすことができるAWSクラウドの能力を何と呼びますか？",
+      "options": [
+        "俊敏性 (Agility)",
+        "弾力性 (Elasticity)",
+        "信頼性 (Reliability)",
+        "高可用性 (High Availability)"
+      ],
+      "answerIndex": 1,
+      "explanation": "弾力性 (Elasticity) は、ワークロードの需要に合わせて必要なリソースを自動的に拡張（スケールアウト）および縮小（スケールイン）できる能力を指します。"
+    },
+    {
+      "id": "clf-015",
+      "category": "security",
+      "difficulty": 2,
+      "question": "AWSのインフラストラクチャが、ISO 27001やPCI DSSなどの様々なコンプライアンス要件を満たしていることを証明するレポートをダウンロードできるポータルはどれですか？",
+      "options": [
+        "AWS Artifact",
+        "AWS Security Hub",
+        "Amazon GuardDuty",
+        "AWS Inspector"
+      ],
+      "answerIndex": 0,
+      "explanation": "AWS Artifactは、AWSのセキュリティおよびコンプライアンスレポート（SOCレポートやPCIレポートなど）や、一部のオンライン契約をオンデマンドでダウンロードできる一元管理型リソースポータルです。"
+    },
+    {
+      "id": "clf-016",
+      "category": "billing",
+      "difficulty": 1,
+      "question": "AWSクラウドへの移行前に、現在のオンプレミス環境の総所有コスト (TCO) とAWSのコストを比較するために役立つツールはどれですか？",
+      "options": [
+        "AWS Cost Explorer",
+        "AWS Pricing Calculator",
+        "AWS Migration Evaluator (旧 TCO Calculator)",
+        "AWS Budgets"
+      ],
+      "answerIndex": 2,
+      "explanation": "AWS Migration Evaluator（旧AWS TCO 計算ツール）は、オンプレミスでアプリケーションを実行するコストとAWSで実行するコストを比較し、ビジネスケースを作成するのに役立ちます。"
+    },
+    {
+      "id": "clf-017",
+      "category": "technology",
+      "difficulty": 2,
+      "question": "リレーショナルデータベースの管理、バックアップ、パッチ適用などの運用タスクをAWSが自動的に処理するフルマネージドサービスはどれですか？",
+      "options": [
+        "Amazon EC2上で稼働するデータベース",
+        "Amazon DynamoDB",
+        "Amazon RDS",
+        "Amazon Redshift"
+      ],
+      "answerIndex": 2,
+      "explanation": "Amazon Relational Database Service (Amazon RDS) は、クラウド内でリレーショナルデータベースの設定、運用、スケーリングを容易にするフルマネージドサービスです。バックアップやパッチ適用を自動化します。"
+    },
+    {
+      "id": "clf-018",
+      "category": "security",
+      "difficulty": 2,
+      "question": "AWSの責任共有モデルにおいて、AWS側の責任として明記されている「クラウドのセキュリティ」に含まれるものはどれですか？",
+      "options": [
+        "顧客データの暗号化設定",
+        "Amazon EC2のオペレーティングシステムのパッチ適用",
+        "物理的なデータセンターのネットワークインフラストラクチャ",
+        "IAMユーザーのパスワードポリシーの設定"
+      ],
+      "answerIndex": 2,
+      "explanation": "AWSは「クラウドのセキュリティ」に責任を持ちます。これには、AWSクラウドサービスを実行するハードウェア、ソフトウェア、ネットワーキング、物理的施設が含まれます。その他の選択肢はすべてユーザーの責任（クラウド内のセキュリティ）です。"
+    },
+    {
+      "id": "clf-019",
+      "category": "technology",
+      "difficulty": 1,
+      "question": "オブジェクトストレージサービスであり、ウェブサイトの静的コンテンツホスティングやデータのバックアップに頻繁に使用されるAWSサービスはどれですか？",
+      "options": [
+        "Amazon EBS",
+        "Amazon EFS",
+        "Amazon S3",
+        "Amazon Glacier"
+      ],
+      "answerIndex": 2,
+      "explanation": "Amazon Simple Storage Service (Amazon S3) は、非常に高い耐久性を持つオブジェクトストレージサービスであり、静的ウェブサイトのホスティングやバックアップ、ビッグデータ分析など幅広く使用されます。"
+    },
+    {
+      "id": "clf-020",
+      "category": "cloud-concepts",
+      "difficulty": 2,
+      "question": "AWSクラウドを導入することで得られる「規模の経済 (Economies of scale)」の利点は何ですか？",
+      "options": [
+        "ハードウェアの調達時間をゼロにできる",
+        "数十万のお客様の使用量を集約することで、AWSがより低い従量課金料金を提供できる",
+        "アプリケーションを数分で世界中にデプロイできる",
+        "インフラストラクチャの運用保守が不要になる"
+      ],
+      "answerIndex": 1,
+      "explanation": "「規模の経済」とは、AWSが数十万のお客様の使用量をクラウドに集約することで、インフラストラクチャの大規模な経済効果を生み出し、お客様により低い従量課金料金（継続的な値下げ）を提供できることを意味します。"
+    },
+    {
+      "id": "clf-021",
+      "category": "billing",
+      "difficulty": 3,
+      "question": "AWS環境のコスト最適化、パフォーマンス、セキュリティ、フォールトトレランス、サービス制限について、ベストプラクティスに基づいた推奨事項を自動的に提供するサービスはどれですか？",
+      "options": [
+        "AWS Trusted Advisor",
+        "AWS Personal Health Dashboard",
+        "AWS Config",
+        "AWS Systems Manager"
+      ],
+      "answerIndex": 0,
+      "explanation": "AWS Trusted Advisor は、AWS 環境を最適化してコストを削減し、パフォーマンスを向上させ、セキュリティを強化するのに役立つオンラインリソースです。ベストプラクティスに従っているかを自動でチェックします。"
+    },
+    {
+      "id": "clf-022",
+      "category": "security",
+      "difficulty": 3,
+      "question": "AWSアカウント内で発生する不正なアクティビティや悪意のある動作を継続的にモニタリングする、機械学習を利用した脅威検出サービスはどれですか？",
+      "options": [
+        "Amazon Inspector",
+        "AWS WAF",
+        "Amazon GuardDuty",
+        "AWS Shield"
+      ],
+      "answerIndex": 2,
+      "explanation": "Amazon GuardDuty は、AWS環境全体の脅威検出サービスであり、機械学習や異常検出などを利用して、悪意のあるアクティビティ（不正な暗号通貨マイニングや不正アクセスなど）を継続的にモニタリングします。"
+    },
+    {
+      "id": "clf-023",
+      "category": "technology",
+      "difficulty": 2,
+      "question": "AWSのマネージド型データウェアハウスサービスであり、ペタバイト規模のデータに対してSQLを使用した分析を高速に行えるサービスはどれですか？",
+      "options": [
+        "Amazon RDS",
+        "Amazon Redshift",
+        "Amazon Athena",
+        "Amazon DynamoDB"
+      ],
+      "answerIndex": 1,
+      "explanation": "Amazon Redshift は、クラウド内の高速でフルマネージドなペタバイト規模のデータウェアハウスサービスです。標準的なSQLを使用して、大規模なデータセットを効率的に分析できます。"
+    },
+    {
+      "id": "clf-024",
+      "category": "billing",
+      "difficulty": 1,
+      "question": "Amazon EC2の料金モデルのうち、テスト環境や短期間のワークロードなど、使用した時間（または秒）単位でのみ支払いを行う最も柔軟なモデルはどれですか？",
+      "options": [
+        "リザーブドインスタンス",
+        "スポットインスタンス",
+        "オンデマンドインスタンス",
+        "Dedicated Hosts"
+      ],
+      "answerIndex": 2,
+      "explanation": "オンデマンドインスタンスは、長期契約や前払いなしで、コンピューティングキャパシティに対して秒単位（最低60秒）または時間単位で支払うモデルです。短期的または予測不可能なワークロードに最適です。"
+    },
+    {
+      "id": "clf-025",
+      "category": "cloud-concepts",
+      "difficulty": 3,
+      "question": "オンプレミスからAWSに移行する際に利用される「6つのR（移行戦略）」のうち、アプリケーションのコードを変更せずに、そのままクラウド上の仮想マシン（EC2など）に移行する手法を何と呼びますか？",
+      "options": [
+        "リファクタリング (Refactoring)",
+        "リホスト (Rehosting / リフトアンドシフト)",
+        "リプラットフォーム (Replatforming)",
+        "リパーチェス (Repurchasing)"
+      ],
+      "answerIndex": 1,
+      "explanation": "リホスト（リフト＆シフト）は、アプリケーションのアーキテクチャを変更せずに、そのままクラウド環境（EC2など）に移行する手法です。最も迅速に移行できる方法の1つです。"
+    },
+    {
+      "id": "clf-026",
+      "category": "technology",
+      "difficulty": 2,
+      "question": "仮想ネットワーク環境（VPC）とインターネットの間で双方向の通信を可能にするために、VPCにアタッチする必要があるコンポーネントはどれですか？",
+      "options": [
+        "NAT ゲートウェイ",
+        "インターネットゲートウェイ (IGW)",
+        "仮想プライベートゲートウェイ (VGW)",
+        "カスタマーゲートウェイ"
+      ],
+      "answerIndex": 1,
+      "explanation": "インターネットゲートウェイ (IGW) は、VPC内のインスタンスとインターネットとの間の通信を可能にするためのスケーラブルなVPCコンポーネントです。"
+    },
+    {
+      "id": "clf-027",
+      "category": "security",
+      "difficulty": 2,
+      "question": "AWS IAMにおいて、EC2インスタンス上のアプリケーションがS3バケットなどの他のAWSサービスにアクセスする権限を、認証情報をハードコードすることなく付与するために使用するものはどれですか？",
+      "options": [
+        "IAM ユーザー",
+        "IAM グループ",
+        "IAM ロール",
+        "IAM ポリシー"
+      ],
+      "answerIndex": 2,
+      "explanation": "IAM ロールをEC2インスタンスにアタッチすることで、アプリケーションは一時的なセキュリティ認証情報を自動的に取得して使用でき、アクセスキーをソースコードに直接記述する（ハードコードする）必要がなくなります。"
+    },
+    {
+      "id": "clf-028",
+      "category": "billing",
+      "difficulty": 2,
+      "question": "企業が複数のAWSアカウントを使用している場合、請求を1つにまとめ、すべてのボリュームディスカウントの利点を組織全体で共有できるサービスはどれですか？",
+      "options": [
+        "AWS Cost Explorer",
+        "AWS Organizations (一括請求)",
+        "AWS Control Tower",
+        "AWS Service Catalog"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS Organizationsの一括請求（コンソリデーテッドビリング）機能を使用すると、組織内のすべてのアカウントの請求がマスターアカウントにまとめられ、使用量が合算されるためボリュームディスカウントを受けやすくなります。"
+    },
+    {
+      "id": "clf-029",
+      "category": "technology",
+      "difficulty": 2,
+      "question": "大量のストリーミングデータをリアルタイムで収集、処理、分析するためのAWSサービスはどれですか？",
+      "options": [
+        "Amazon Kinesis",
+        "Amazon SQS",
+        "Amazon SNS",
+        "AWS Batch"
+      ],
+      "answerIndex": 0,
+      "explanation": "Amazon Kinesis は、大規模なストリーミングデータ（ビデオ、音声、アプリケーションログ、IoTテレメトリなど）をリアルタイムで収集、処理、および分析するためのサービスです。"
+    },
+    {
+      "id": "clf-030",
+      "category": "security",
+      "difficulty": 3,
+      "question": "AWS環境のデータ暗号化に使用する暗号化キーを、顧客自身が作成および管理できるフルマネージドサービスはどれですか？",
+      "options": [
+        "AWS Certificate Manager (ACM)",
+        "AWS Key Management Service (KMS)",
+        "AWS Secrets Manager",
+        "Amazon Macie"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS Key Management Service (KMS) は、データの暗号化に使用される暗号化キーを簡単に作成および管理できるマネージドサービスです。多くのAWSサービスと統合されており、データの暗号化を容易にします。"
+    },
+    {
+      "id": "clf-031",
+      "category": "technology",
+      "difficulty": 1,
+      "question": "AWSのグローバルインフラストラクチャにおいて、データの冗長性と高いフォールトトレランス（耐障害性）を提供するために、1つの「リージョン」内に複数配置されている独立したデータセンター群を何と呼びますか？",
+      "options": [
+        "エッジロケーション",
+        "アベイラビリティーゾーン (AZ)",
+        "ローカルゾーン",
+        "VPC (Virtual Private Cloud)"
+      ],
+      "answerIndex": 1,
+      "explanation": "アベイラビリティーゾーン (AZ) は、1つのリージョン内にある、1つ以上の独立したデータセンターで構成されています。それぞれが独立した電源、冷却、ネットワークを備えており、物理的に分離されているため高い可用性を提供します。"
+    },
+    {
+      "id": "clf-032",
+      "category": "security",
+      "difficulty": 2,
+      "question": "AWSアカウントでIAMユーザーにパスワードポリシー（例：最低8文字、英数字と記号を含む等）を強制するための設定はどこで行いますか？",
+      "options": [
+        "AWS IAM のアカウント設定",
+        "AWS Organizations のサービスコントロールポリシー (SCP)",
+        "Amazon Cognito ユーザープール",
+        "AWS CloudTrail の設定"
+      ],
+      "answerIndex": 0,
+      "explanation": "IAMのアカウント設定から、すべてのIAMユーザーに適用されるパスワードポリシー（文字数、文字種、有効期限など）をカスタマイズおよび強制できます。"
+    },
+    {
+      "id": "clf-033",
+      "category": "billing",
+      "difficulty": 1,
+      "question": "AWSの使用量に関わらず、すべてのAWS顧客に無料で提供されているサポートプランはどれですか？",
+      "options": [
+        "Developer サポート",
+        "Business サポート",
+        "Enterprise サポート",
+        "Basic サポート"
+      ],
+      "answerIndex": 3,
+      "explanation": "BasicサポートはすべてのAWS顧客に無料で提供されます。カスタマーサービス、ドキュメント、ホワイトペーパー、サポートフォーラムへのアクセスが含まれますが、技術サポート（テクニカルアカウントマネージャーなど）は含まれません。"
+    },
+    {
+      "id": "clf-034",
+      "category": "cloud-concepts",
+      "difficulty": 2,
+      "question": "企業が自社のオンプレミスデータセンターとAWSクラウドの両方を組み合わせて使用し、シームレスにリソースを統合するアーキテクチャモデルを何と呼びますか？",
+      "options": [
+        "パブリッククラウド",
+        "プライベートクラウド",
+        "ハイブリッドクラウド",
+        "マルチクラウド"
+      ],
+      "answerIndex": 2,
+      "explanation": "ハイブリッドクラウドモデルは、オンプレミス（自社保有）のインフラストラクチャとパブリッククラウド（AWSなど）のリソースを組み合わせて使用するクラウド展開モデルです。"
+    },
+    {
+      "id": "clf-035",
+      "category": "technology",
+      "difficulty": 2,
+      "question": "コンテナ化されたアプリケーションをAWS上で簡単にデプロイ、管理、スケーリングするためのフルマネージド型コンテナオーケストレーションサービス（Docker対応）はどれですか？",
+      "options": [
+        "Amazon Elastic Container Service (Amazon ECS)",
+        "AWS Lambda",
+        "Amazon EC2",
+        "AWS CloudFormation"
+      ],
+      "answerIndex": 0,
+      "explanation": "Amazon ECS は、AWS上でDockerコンテナを簡単に実行、停止、管理できる、スケーラビリティとパフォーマンスに優れたコンテナオーケストレーションサービスです。（K8s対応版はEKSです）"
+    },
+    {
+      "id": "clf-036",
+      "category": "security",
+      "difficulty": 2,
+      "question": "AWSクラウド内のアプリケーションに対するSQLインジェクションやクロスサイトスクリプティング（XSS）などの一般的なWebエクスプロイトから保護するためのサービスはどれですか？",
+      "options": [
+        "AWS Shield",
+        "AWS WAF",
+        "Amazon GuardDuty",
+        "Amazon Macie"
+      ],
+      "answerIndex": 1,
+      "explanation": "AWS WAF (Web Application Firewall) は、HTTP/HTTPSリクエストを監視し、一般的なWebの脆弱性（SQLインジェクションやXSSなど）を利用した悪意のあるトラフィックからWebアプリケーションを保護します。"
+    },
+    {
+      "id": "clf-037",
+      "category": "billing",
+      "difficulty": 2,
+      "question": "特定のAWSサービス（例：Amazon EC2）を特定のリージョンで1年または3年利用することを約束する代わりに、オンデマンド料金と比較して大幅な割引を受けられる料金オプションは何ですか？",
+      "options": [
+        "スポットインスタンス",
+        "Dedicated Hosts (専用ホスト)",
+        "リザーブドインスタンス (RI)",
+        "AWS 無料利用枠"
+      ],
+      "answerIndex": 2,
+      "explanation": "リザーブドインスタンス（またはSavings Plans）は、1年または3年の長期的な利用をコミット（約束）することで、オンデマンド料金と比べて最大72%の大幅な割引を提供する支払いオプションです。"
+    },
+    {
+      "id": "clf-038",
+      "category": "technology",
+      "difficulty": 1,
+      "question": "AWSリソースへのトラフィックを分散させることで、アプリケーションの可用性と耐障害性を高めるサービスはどれですか？",
+      "options": [
+        "Amazon Route 53",
+        "Elastic Load Balancing (ELB)",
+        "Auto Scaling",
+        "Amazon API Gateway"
+      ],
+      "answerIndex": 1,
+      "explanation": "Elastic Load Balancing (ELB) は、受信するアプリケーショントラフィックを複数のAmazon EC2インスタンスやコンテナなどのターゲットに自動的に分散させ、可用性を高めるサービスです。"
+    },
+    {
+      "id": "clf-039",
+      "category": "cloud-concepts",
+      "difficulty": 2,
+      "question": "「AWSのインフラストラクチャは世界中の複数の地域に存在し、お客様は要件に合わせてデータとリソースを最適な場所に配置できる」という特徴は、クラウドのどの利点に関連していますか？",
+      "options": [
+        "資本的支出を変動費に変換する",
+        "スケールによる大きな経済的メリットを享受する",
+        "わずか数分で世界中に展開する (Go global in minutes)",
+        "データセンターの維持や運用への投資を不要にする"
+      ],
+      "answerIndex": 2,
+      "explanation": "AWSのグローバルインフラ（リージョンとエッジロケーション）を利用することで、世界中のユーザーに近い場所へわずか数クリック、数分でアプリケーションをデプロイでき、レイテンシーを低減できます（Go global in minutes）。"
+    },
+    {
+      "id": "clf-040",
+      "category": "security",
+      "difficulty": 3,
+      "question": "AWSインフラストラクチャ上のネットワークトラフィックを監視し、EC2インスタンスのネットワークインターフェイスを出入りするトラフィック（許可・拒否）のログを記録する機能はどれですか？",
+      "options": [
+        "VPC フローログ",
+        "AWS CloudTrail",
+        "Amazon CloudWatch Logs",
+        "AWS Config"
+      ],
+      "answerIndex": 0,
+      "explanation": "VPCフローログ (VPC Flow Logs) は、VPCのネットワークインターフェイスとの間で行き来するIPトラフィックに関する情報（IPアドレス、ポート、パケット数、アクション：ACCEPT/REJECTなど）をキャプチャしてログに記録する機能です。トラブルシューティングやセキュリティ監査に必須です。"
     }
   ]
 }

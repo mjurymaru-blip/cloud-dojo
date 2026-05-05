@@ -8,8 +8,8 @@
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   
   <!-- Data Prefetch -->
-  <link rel="prefetch" href="/data/clf-c02.json" as="fetch" crossorigin="anonymous">
-  <link rel="prefetch" href="/data/saa-c03.json" as="fetch" crossorigin="anonymous">
+  <link rel="prefetch" href="./data/clf-c02.json" as="fetch" crossorigin="anonymous">
+  <link rel="prefetch" href="./data/saa-c03.json" as="fetch" crossorigin="anonymous">
   
   <title>Cloud Dojo - AWS Learning Platform</title>
   <link rel="stylesheet" href="/src/css/variables.css">
@@ -34,23 +34,39 @@
       <h2 class="section-title">学習コースを選択</h2>
       
       <div class="course-cards">
-        <button class="glass-card course-btn" data-course="clf-c02">
-          <div class="course-icon clf-icon">☁️</div>
-          <div class="course-info">
-            <h3>Cloud Practitioner</h3>
-            <p>CLF-C02</p>
+        <div class="glass-card course-card" data-course="clf-c02">
+          <div class="course-header" style="cursor: pointer;">
+            <div class="course-icon clf-icon">☁️</div>
+            <div class="course-info">
+              <h3>Cloud Practitioner</h3>
+              <p>CLF-C02 <span class="stats-text"></span></p>
+            </div>
+            <div class="expand-icon">▼</div>
+          </div>
+          <div class="progress-container">
             <div class="progress-bar"><div class="progress-fill" style="width: 0%"></div></div>
           </div>
-        </button>
+          <div class="categories-container" style="display: none;">
+            <!-- JSでカテゴリ一覧を動的生成 -->
+          </div>
+        </div>
 
-        <button class="glass-card course-btn" data-course="saa-c03">
-          <div class="course-icon saa-icon">🏗️</div>
-          <div class="course-info">
-            <h3>Solutions Architect Associate</h3>
-            <p>SAA-C03</p>
+        <div class="glass-card course-card" data-course="saa-c03">
+          <div class="course-header" style="cursor: pointer;">
+            <div class="course-icon saa-icon">🏗️</div>
+            <div class="course-info">
+              <h3>Solutions Architect Associate</h3>
+              <p>SAA-C03 <span class="stats-text"></span></p>
+            </div>
+            <div class="expand-icon">▼</div>
+          </div>
+          <div class="progress-container">
             <div class="progress-bar"><div class="progress-fill" style="width: 0%"></div></div>
           </div>
-        </button>
+          <div class="categories-container" style="display: none;">
+            <!-- JSでカテゴリ一覧を動的生成 -->
+          </div>
+        </div>
       </div>
     </main>
   </div>

@@ -4,7 +4,7 @@
 
 export async function fetchQuestions(courseId) {
   try {
-    const response = await fetch(`/data/${courseId}.json`);
+    const response = await fetch(`./data/${courseId}.json`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
