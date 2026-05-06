@@ -18,6 +18,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      workbox: {
+        navigateFallback: null
+      },
       manifest: {
         name: 'Cloud Dojo',
         short_name: 'Cloud Dojo',
